@@ -20,16 +20,18 @@ The project includes *two parts*: **parking site for clients** and **Admin Panel
 
 # 1. Clients part
 🚗 The main purpose of this part is to provide client an ability to book parking place ***as quickly and simply*** as possible.
-*PHOTO
 
 🚗 The first step for booking is just *entering required time interval of parking*.
-*PHOTO
+
+![First booking step](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_01-26-16.jpg)
 
 🚗 Then the site calculates and provides client the cost for entered period. Next, client fills simple form with *only two fields required* (Name and Phone Number).
-*PHOTO
+
+![Second booking step](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_01-26-07.jpg)
 
 🚗 Next page lets client to fill *some optional details* about reservation, additional services and payment method. Here client also can request *a VAT invoice* that will be *generated and sent to the email automatically.*
-* PHOTO
+
+![Third booking step](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_01-26-26.jpg)
 
 🚗 The last step of booking is confirmation. Client needs to click the link sent to the provided mail/phone number.
 
@@ -50,13 +52,18 @@ The project includes *two parts*: **parking site for clients** and **Admin Panel
 
 ## Daily resume for employees
 🚗 Everyday employees see ***a list of cars that should arrive or leave today*** and all  the necessary information: arrival or departure date and time, car registrations, car owners details, etc.
-*PHOTO
+
+![Orders list](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_01-59-01.jpg)
+
 ## Edit settings page
 
 🚗 The **1-level admins** have an ability **to edit some site data** such as prices for parking, depending on period, prices of additional services.
 
 All this data stored in the Database and **all changes will be available** on the client's site **immediately**.
-*PHOTO
+
+![Edit settings page](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_02-08-34.jpg)
 
 🚗 Also, this page provides admin an ability to add and delete admins.
-*PHOTO
+
+![Admins](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_02-09-39.jpg)
+
