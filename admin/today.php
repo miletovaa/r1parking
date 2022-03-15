@@ -1,4 +1,3 @@
-<!-- TODAY ORDERS PAGE -->
 <?
 session_start();
 /* 
