@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Smooch+Sans&display=swap');
+
+body{
+    background-color: #f4f7ff;
+    font-family: 'Open Sans';
+}
+#wrapper{
+    max-width: 1024px;
+    width: 96%;
+    margin: 0 auto;
+}
+.cost{
+    display: flex;
+}
+.cost_col{
+    width: 50%;
+}
+.container{
+    margin: 0.5%;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: white;
+    border: solid 2.3px #DFE7FD;
+}
+.container.sett{
+    width: 53%;
+}
+.container.block{
+    width: 36%;
+}
+.container.admins{
+    width: 98%;
+}
+.blocks{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+input[type=text], input[type=number]{ 
+    border: none;
+    font-size: 18px;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.admin_title{
+    font-size: 28px;
+    margin: 5px 0px;
+    font-weight: bold;
+    color: #5675c9;
+}
+.admin_btn{
+    font-family: "Smooch Sans";
+    font-size: 28px;
+    border: none;
+    padding: 0px 15px;
+    border-radius: 5px;
+    background: #cddafd;
+    color: #5675c9;
+    cursor: pointer;
+    transition: .1s;
+}
+.admin_btn:hover{
+    background: #a0b5f0;
+    color: #465b96;
+    transition: .1s;
+}
+.order_row{
+    display: flex;
+    width: 96%;
+    margin: 6px 1.5%;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 10px;
+}
+.order_row.head{
+    padding: 10px 0;
+    background-color: white;
+    border: solid 2.3px #DFE7FD;
+    margin: 15px 1.5%;
+    font-weight: bold;
+}
+.order_row.status1{
+    background-color: #F0EFEB;
+    /* border: solid 2.3px #EDEADD; */
+}
+.order_row.status2{
+    background-color: #E2ECE9;
+    /* border: solid 2.3px #D4E6D3; */
+}
+.order_row.status3{
+    background-color: #FFF1E6;
+    /* border: solid 2.3px #F6E6C7; */
+}
+.order_row.status4{
+    background-color: #DFE7FD;
+    /* border: solid 2.3px #CDDAFD; */
+}
+.order_col{
+    width: 16.6%;
+}
+.settings{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    background: #CDDAFD;
+    padding: 20px;
+}
+.sett_row{
+    display: flex;
+    justify-content: space-between;
+    background: #f0f0f0;
+    color: gray;
+    margin: 10px;
+}
+.sett_row input{
+    font-size: 20px;
+    width: 60px;
+}
+.btn_container{
+    display: flex;
+}
+#admins_container{
+    display: flex;
+}
+.admin_block{
+    display: flex;
+    width: 200px;
+    height: 250px;
+    padding: 20px 15px;
+    background: #DFE7FD;
+    border-radius: 10px;
+    margin: 10px;
+    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.admin_block.new{
+    background: #D0E8C8;
+}
+.admin_row{
+    margin: 3px 0;
+}
+.admin_name{
+    font-size: 22px;
+    font-weight: bold;
+}
+.admin_level{
+    font-style: italic;
+    font-size: 14px;
+}
+.personal_link{
+    text-decoration: underline;
+    font-style: italic;
+}
+.admin_btns{
+    display: flex;
+    justify-items: flex-end;
+}
+.delete_admin, .add_admin, .sett_btn{
+    border: none;
+    margin: a;
+    flex-direction: unset;
+    margin: 0 auto;
+    cursor: pointer;
+    padding: 2px 10px;
+    border-radius: 5px;
+    color: gray;
+    transition: .1s;
+}
+.delete_admin:hover{
+    background-color: #ff9393;
+    color: red;
+    transition: .1s;
+}
+.add_admin:hover{
+    background-color: #a2db96;
+    color: #5d9c50;
+    transition: .1s;
+}

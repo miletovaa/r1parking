@@ -1,0 +1,439 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Smooch+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Smooch+Sans&display=swap');
+
+body{
+    margin: 0;
+    font-family: 'Open Sans';
+    color: #2e2e2e;
+}
+a{
+    text-decoration: none;
+}
+/* общие настройки --------- */
+.empty{
+    width: 100%;
+    height: 200px;
+}
+.container{
+    max-width: 1024px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+}
+.note{
+    color: #B4B4B4;
+    font-style: italic;
+    font-size: 13px;
+}
+.advantage{
+    color: #fe4d61;
+    font-style: italic;
+    font-size: 13px;
+    text-align: center;
+}
+/* Header ------------------ */
+/* header{
+
+} */
+#header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: white;
+    box-shadow: 1px 1px 5px gray;
+}
+#info_line_header{
+    background-color: #ececec;
+}
+.info_link, .info_link a{
+    color: #B4B4B4;
+    text-decoration: none;
+    padding: 1px 0;
+    transition: .1s;
+}
+.info_link:hover, .info_link a:hover{
+    color: #6f6f6f;
+    transition: .1s;
+}
+#langSelect{
+    background: white;
+    border-radius: 5px;
+    font-size: 16px;
+    border: 2px solid #B4B4B4;
+    margin: 0 0 0 8px;
+    padding: 2px;
+    color: #B4B4B4;
+    cursor: pointer;
+}
+.container.header{
+    justify-content: space-between;
+    padding: 10px 0;
+}
+.container.header, .container.header_info{
+    justify-content: space-between;
+}
+#header_links{
+    display: flex;
+    margin: auto 0;
+    align-items: center;
+}
+.link{
+    margin: 0 15px;
+}
+.link a{
+    /* font-weight: bold; */
+    color: #2e2e2e;
+    font-size: 18px;
+    transition: .1s;
+    text-transform: uppercase;
+}
+.link:hover, .link a:hover{
+    color: #6C6C6C;
+    transition: .1s;
+}
+.rezerwacja{
+    color: #fe4d61;
+    border: 2px solid #fe4d61;
+    padding: 5px 18px;
+    border-radius: 20px;
+    /* font-weight: bold; */
+    font-size: 18px;
+    transition: .2s;
+}
+.rezerwacja:hover{
+    color: #fff;
+    background: #fe4d61;
+    transition: .2s;
+}
+
+/* INDEX.PHP ----------------- */
+#main_photo{
+    width: 100%;
+    height: 85vh;
+    overflow: hidden;
+    position:absolute;
+    top: 100px;
+}
+#main_photo img{
+    width: 100%;
+}
+.on_photo{
+    justify-content: right;
+    height: 85vh;
+    align-items: center;
+}
+.block_on_photo{
+    width: 260px;
+    background-color: white;
+    position: relative;
+    /* box-shadow: 1px 1px 5px gray; */
+    border-radius: 15px;
+    padding: 25px 35px 5px;
+    text-align: center;
+}
+.title{
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+}
+.rezerwacja.btn_on_photo{
+    text-align: center;
+    background: #fe4d61;
+    color: white;
+    margin: 25px 0;
+    transition: .5s;
+}
+.rezerwacja.btn_on_photo:hover{
+    background: #ca3446;
+    border: 2px solid #ca3446;
+    /*box-shadow: 0px 0px 5px rgb(235, 116, 130);
+    color: rgb(235, 116, 130); */
+    transition: .5s;
+}
+
+/* book/index.php ----------------- */
+.container.column{
+    flex-direction: column;
+}
+.airport{
+    display: flex;
+}
+.text, .img{
+    width: 50%;
+}
+.img img{
+    width: 95%;
+    margin: 0 0 0 5%;
+}
+.text1{
+    color: #fe4d61;
+    font-size: 24px;
+    text-align: center;;
+    font-weight: bold;
+}
+.text2{
+    text-align: center;
+    font-size: 25px;
+    margin: 7px;
+}
+.text3{
+    font-size: 20px;
+}
+.text4{
+    margin: 50px auto;
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+.dates{
+    justify-content: center;
+    height: 85vh;
+    align-items: center;
+}
+.block_on_photo_dates{
+    width: 770px;
+    background-color: white;
+    position: relative;
+    border-radius: 15px;
+    padding: 20px 60px 45px;
+    text-align: center;
+}
+.date_time{
+    display: flex;
+    justify-content: space-around;
+}
+.date_time_block{
+    display: flex;
+}
+.input_label{
+    color: #fe4d61;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+#dateEnterForm, #dateExitForm, #timeEnterForm, #timeExitForm{
+    font-family: 'Open Sans';
+    font-size: 16px;
+    padding: 0px 8px;
+    border: 1px solid #B4B4B4;
+    color: #b7b7b7;
+    margin: 0 10px;
+    border-radius: 5px;
+    transition: .2s;
+}
+#dateEnterForm, #dateExitForm, #timeEnterForm, #timeExitForm{
+    border: 1px solid #B4B4B4;
+    transition: .2s;
+}
+.dates_title1{
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px;
+}
+.dates_title{
+    font-size: 20px;
+    margin: 10px;
+}
+.btn_days{
+    background-color: #fe4d61;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: .1s;
+}
+.btn_days:hover{
+    background: #ca3446;
+    transition: .1s;
+}
+hr{
+    border-top: 0;
+    margin: 10px;
+}
+
+/* step2 -------------------------- */
+.container.rows{
+    justify-content: space-between;
+}
+.step2_title1{
+    margin: 15px 0 3px;
+    font-size: 18px;
+    font-style: italic;
+    color: gray;
+}
+.step2_title2{
+    margin: 0 0 50px 0;
+    font-size: 23px;
+    /* font-style: italic; */
+    /* color: gray; */
+    font-weight: bold;
+}
+.date_time_step2{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    background: #50BFFE;
+    color: white;
+    padding: 20px 10px;
+    border-radius: 15px;
+    width: 330px;
+    height: min-content;
+    margin: 0 0 0 auto;
+}
+.date_time_block_step2{
+    justify-content: space-between;
+    margin: 2px 12px;
+    width: 50%;
+}
+.arrival, .departure{
+    display: flex;
+    justify-content: space-between;
+}
+.input_label.white{
+    color: white;
+}
+#dateEnterForm.date_step2, #dateExitForm.date_step2, #timeEnterForm.date_step2, #timeExitForm.date_step2{
+    margin: 0;
+    padding: 4px 10px;
+    font-size: 18px;
+}
+.step2_titles{
+    color: #fe4d61;
+    font-size: 22px;
+    font-weight: bold;
+}
+.input_row{
+    margin: 12px 0;
+}
+.input_label_step2, .input_label_step3{
+    font-size: 20px;
+    margin: 0 0 5px 0;
+}
+input[type=text], input[type=number],input[type=tel], input[type=email]{
+    font-size: 22px;
+    border: 1px solid #B4B4B4;
+    border-radius: 5px;
+    padding: 10px;
+    width: 575px;
+}
+.input_row input[type=text]:hover,.input_row input[type=number]:hover,.input_row input[type=tel]:hover,.input_row input[type=email]:hover{
+    border: 1px solid #7e7e7e;
+}
+.input_row input[type=text]::placeholder,.input_row input[type=number]::placeholder,.input_row input[type=tel]::placeholder,.input_row input[type=email]::placeholder{
+    color: #B4B4B4;
+}
+.input_row input[type=text]:focus, .input_row textarea:focus{
+    outline: #50BFFE solid 2px;
+    border: none;
+}
+.traveler_data, .cost{
+    border-radius: 15px;
+    border: 1px solid #B4B4B4;
+    padding: 20px;
+}
+.cost{
+    width: 310px;
+margin: 15px 0;
+}
+.bill{
+    display: flex;
+}
+#billJS, #costAll{
+    font-size: 32px;
+}
+.continue_btn, .book_btn{
+    margin: 30px auto 100px;
+    background: #fe4d61;
+    border: 2px solid #fe4d61;
+    padding: 8px 25px;
+    border-radius: 22px;
+    /* font-weight: bold; */
+    font-size: 24px;
+    transition: .2s;
+    color: white;
+    cursor: pointer;
+}
+.continue_btn:hover, .book_btn:hover{
+    color: #fe4d61;
+    background: #fff;
+    transition: .2s;
+}
+
+/* step3 ----------------------- */
+.input_row input[type=number]{
+    width: 70px;
+}
+.input_label_step3.person {
+    font-size: 16px;
+}
+.persons, .car_row{
+    display: flex;
+}
+.persons > .input_row, .car_row > .input_row{
+    margin: 12px 10px 12px 0;
+}
+.car_row > .input_row > input[type=text]{
+    width: 472px;
+}
+.input_row textarea{
+    width: 588px;
+    resize: none;
+    border: 1px solid #B4B4B4;
+}
+.input_row textarea:hover{
+    border: 1px solid #7e7e7e;
+}
+.step3{
+    width: 600px;
+    margin: 20px 0;
+}
+.block_step3{
+    border-radius: 15px;
+    border: 1px solid #B4B4B4;
+    padding: 20px;
+    margin: 20px;
+    width: 320px;
+}
+#keyForm, #vatForm{
+    width: auto;
+    margin: 0 10px 0 0;
+}
+.input_row.row{
+    display: flex;
+}
+.cost_keys{
+    margin: 5px 0 5px auto;
+    font-size: 17px;
+}
+.payment > .input_row{
+    display: flex;
+}
+.invisible{
+    display: none;
+}
+.center{
+    justify-content: center;
+}
+.input_label_step3.vat{
+    font-size: 16px;
+}
+.left,.right{
+    width: 50%;
+}
+input.vat_inp{
+    width: 400px;
+}
+.step3_reg{
+    margin: 0 0 5px 0;
+}
+
+/* finish ------------------- */
+.finish{
+    color: #fe4d61;
+    text-align: center;
+    width: 100%;
+    font-size: 36px;
+    margin: 50px 0;
+}
