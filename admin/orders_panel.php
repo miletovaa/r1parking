@@ -1,4 +1,3 @@
-<!-- ORDERS PAGE -->
 <?
 session_start();
 /* 
