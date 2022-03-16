@@ -48,11 +48,13 @@ $vat_nip = isset($_POST['vat_nip']) ? $_POST['vat_nip'] : '';
 $vat_address = isset($_POST['vat_address']) ? $_POST['vat_address'] : '';
 $vat_postcode = isset($_POST['vat_postcode']) ? $_POST['vat_postcode'] : '';
 $vat_city = isset($_POST['vat_city']) ? $_POST['vat_city'] : '';
+$last_update = date('y-m-d H:i:s');
 
 /* 
 * Updating `ORDERS` table with new order info
 */
 $query = "UPDATE orders SET 
+last_update = :last_update,
 order_status = 1,
 passengers = :passengers,
 cars = :cars,
@@ -72,6 +74,7 @@ subscribe = :subscribe,
 bill = :bill
 WHERE order_id = :order_id";
 $result = $db->prepare($query);
+$result->bindParam(":last_update",$last_update, PDO::PARAM_STR);
 $result->bindParam(":passengers",$passengers, PDO::PARAM_STR);
 $result->bindParam(":cars",$cars, PDO::PARAM_INT);
 $result->bindParam(":registration",$registration, PDO::PARAM_STR);

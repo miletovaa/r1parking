@@ -67,7 +67,9 @@ if (!$client_isset){
 /* 
 * Updating `ORDERS` table with new order info
 */
+$last_update = date('y-m-d H:i:s');
 $query = "UPDATE orders SET 
+last_update = :last_update,
 date_enter = :date_enter,
 time_enter = :time_enter,
 date_exit = :date_exit,
@@ -77,6 +79,7 @@ bill = :bill,
 client_id = :client_id
 WHERE order_id = :order_id";
 $result = $db->prepare($query);
+$result->bindParam(":last_update",$last_update, PDO::PARAM_STR);
 $result->bindParam(":date_enter",$_POST['date_enter'], PDO::PARAM_STR);
 $result->bindParam(":time_enter",$_POST['time_enter'], PDO::PARAM_STR);
 $result->bindParam(":date_exit",$_POST['date_exit'], PDO::PARAM_STR);

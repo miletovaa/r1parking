@@ -183,3 +183,8 @@ a{
     color: #5d9c50;
     transition: .1s;
 }
+.status_btn{
+    border: none;
+    cursor: pointer;
+    padding: 3px 10px;
+}

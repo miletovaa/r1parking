@@ -36,6 +36,10 @@ $result = $db->prepare($query);
 $result->bindParam(":today",$today, PDO::PARAM_STR);
 $result->execute();
 $orders = $result->fetchAll(PDO::FETCH_ASSOC);
+
+$last_update_q = $db->prepare("SELECT * from orders ORDER BY last_update DESC");
+$last_update_q->execute();
+$last_update = $last_update_q->fetchAll(PDO::FETCH_ASSOC)[0]['last_update'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,6 +51,7 @@ $orders = $result->fetchAll(PDO::FETCH_ASSOC);
     <title>Dziś | R1 Parking</title>
 </head>
 <body>
+<div id="lastUpdate" style="display:none;"><?=$last_update;?></div>
     <h1>Dziś <?=$today;?></h1>
     <a href="orders_panel.php">Do wszystkich &#9654;</a> 
 <!-- 
@@ -63,6 +68,7 @@ print link to the Settings panel on page
             <div class="order_col">DO ZAPŁATY <a href="?order_by=bill">&#9650;</a><a href="?order_by=bill&desc=">&#9660;</a></div>
             <div class="order_col">PRZYJAZD <a href="?order_by=date_enter">&#9650;</a><a href="?order_by=date_enter&desc=">&#9660;</a></div>
             <div class="order_col">WYJAZD <a href="?order_by=date_exit">&#9650;</a><a href="?order_by=date_exit&desc=">&#9660;</a></div>
+            <div class="order_col">next step <a href="?order_by=next_step">&#9650;</a><a href="?order_by=next_step&desc=">&#9660;</a></div>
             <div class="order_col">KLIENT</div>
         </div>
     <? foreach($orders as $key => $order){?>
@@ -70,15 +76,17 @@ print link to the Settings panel on page
             switch ($order['order_status']){
                 case 1:
                     $class = 'status1';
-                    $order_status = 'Rezerwacja nie potwierdzona.';
+                    $order_status = 'Rezerwacja nie potwierdzona.<button class="status_btn" id="s'.$order['order_id'].'">update status</button>';
                 break;
                 case 2:
                     $class = 'status2';
                     $order_status = 'Rezerwacja potwierdzona. <button class="status_btn" id="s'.$order['order_id'].'">Samochód na parkingu</button>';
+                    $step = 'Car will arive at ';
                 break;
                 case 3:
                     $class = 'status3';
                     $order_status = 'Samochód na parkingu. <button class="status_btn" id="s'.$order['order_id'].'">Samochód odjechał</button>';
+                    $step = 'Car will leave at ';
                 break;
                 case 4:
                     $class = 'status4';
@@ -96,11 +104,13 @@ print link to the Settings panel on page
             <div class="order_col"><?=$order['bill'];?> zł (<?=$order['payment'];?>)</div>
             <div class="order_col"><?=$order['date_enter'];?></div>
             <div class="order_col"><?=$order['date_exit'];?></div>
+            <div class="order_col"><?=$step;?><?=$order['next_step'];?></div>
             <div class="order_col"><?=$client['name'];?> <?=$client['tel'];?> <?=$client['mail'];?></div>
         </div>
     <?}?>
     </div>
 
 <script src="../js/admin.js"></script>
+<script src="../js/update_orders_list.js"></script>
 </body>
 </html>

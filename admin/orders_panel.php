@@ -33,6 +33,10 @@ if (isset($_GET['order_by'])) {
 $result = $db->prepare($query);
 $result->execute();
 $orders = $result->fetchAll(PDO::FETCH_ASSOC);
+
+$last_update_q = $db->prepare("SELECT * from orders ORDER BY last_update DESC");
+$last_update_q->execute();
+$last_update = $last_update_q->fetchAll(PDO::FETCH_ASSOC)[0]['last_update'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +48,7 @@ $orders = $result->fetchAll(PDO::FETCH_ASSOC);
     <title>Rezerwacje | R1 Parking</title>
 </head>
 <body>
+<div id="lastUpdate" style="display:none;"><?=$last_update;?></div>
     <h1>Wszystkie rezerwacje </h1>
     <a href="today.php">DZIŚ &#9654;</a> 
 <!-- 
@@ -67,7 +72,7 @@ print link to the Settings panel on page
             switch ($order['order_status']){
                 case 1:
                     $class = 'status1';
-                    $order_status = 'Rezerwacja nie potwierdzona.';
+                    $order_status = 'Rezerwacja nie potwierdzona.<button class="status_btn" id="s'.$order['order_id'].'">Potwierdzona</button>';
                 break;
                 case 2:
                     $class = 'status2';
@@ -93,11 +98,12 @@ print link to the Settings panel on page
             <div class="order_col"><?=$order['bill'];?> zł (<?=$order['payment'];?>)</div>
             <div class="order_col"><?=$order['date_enter'];?></div>
             <div class="order_col"><?=$order['date_exit'];?></div>
-            <div class="order_col"><?=$client['name'];?> <?=$client['tel'];?> <?=$client['mail'];?></div>
+            <div class="order_col"><?=$order['client_id'];?><?=$client['name'];?> <?=$client['tel'];?> <?=$client['mail'];?></div>
         </div>
     <?}?>
     </div>
 
 <script src="../js/admin.js"></script>
+<script src="../js/update_orders_list.js"></script>
 </body>
 </html>

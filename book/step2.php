@@ -47,14 +47,18 @@ if (isset($_COOKIE['order_id'])){
 }else{
 	$order_id = CreateRandomCodeFullCharacter(6);
 	setcookie("order_id", $order_id, time() + 72*60*60, "/");
+	$last_update = date('y-m-d H:i:s');
 	$query = "INSERT INTO `orders` 
-	(`order_id`,
+	(`last_update`,
+	`order_id`,
 	`date_enter`,
 	`date_exit`) VALUES 
-	(:order_id,
+	(:last_update,
+	:order_id,
 	:date_enter,
 	:date_exit)";
 	$result = $db->prepare($query);
+	$result->bindParam(":last_update",$last_update, PDO::PARAM_STR);
 	$result->bindParam(":order_id", $order_id, PDO::PARAM_STR);
 	$result->bindParam(":date_enter", $_POST['date_enter'], PDO::PARAM_STR);
 	$result->bindParam(":date_exit", $_POST['date_exit'], PDO::PARAM_STR);

@@ -2,7 +2,7 @@
 class Database {
     public static function getConnection() {
         $host = 'localhost';
-        $dbname = 'db_name';
+        $dbname = 'dbname';
         $user = 'user';
         $pass = '';
         $db = new PDO("mysql:host=$host;charset=utf8;dbname=$dbname", $user, $pass);
@@ -53,69 +53,4 @@ function CreateRandomCodeFullCharacter($quantity_сharacters){
     }
     return $code;
 }
-
-/*
-STRUCTURE OF MY DATABASE
-
-TABLE `orders`:
-order_id
-order_status
-book_start
-book_finish
-for_days - int
-bill
-date_enter
-time_enter
-date_exit
-time_exit
-client_id - int
-passengers - varchar
-cars - int
-registration - varchar
-back_from - varchar
-comments - varchar
-payment - varchar
-key_safe - boolean
-free_help - boolean
-subscribe - boolean
-vat - boolean
-vat_name - varchar
-vat_nip - varchar
-vat_address
-vat_postcode
-vat_city
-
-TABLE `clients`:
-name
-tel
-mail
-orders - varchar
-
-TABLE `moderator`:
-cost_key
-cost_parking_day1
-cost_parking_day2
-cost_parking_day3
-cost_parking_day4
-cost_parking_day5
-cost_parking_day6
-cost_parking_day7
-cost_parking_day8
-cost_parking_day9
-cost_parking_day10
-cost_parking_day11
-cost_parking_day12
-cost_parking_day13
-cost_parking_day14
-cost_parking_day_after14
-
-TABLE `admins`:
-admin_pass
-admin_name
-
-TABLE `translator`:
-ru
-en
-pl
-*/
 ?>
