@@ -1,13 +1,10 @@
 /* 
 * Updating status of order by clicking corresponding button.
 */
-if (document.querySelector('#orders_container')){
-	let orders = document.querySelector('#orders_container');
-	orders.onclick = function(e) {
-		if(document.querySelector('#'+e.target.id).classList.contains('status_btn')){
-			let statusId = e.target.id.substring(1);
-			if(confirm('Хотите изменить статус заказа '+statusId+'?')) updateStatusFunction(statusId);
-		}
+function updateStatusBtn() {
+	if(document.querySelector('#'+e.target.id).classList.contains('status_btn')){
+		let statusId = e.target.id.substring(1);
+		if(confirm('Хотите изменить статус заказа '+statusId+'?')) updateStatusFunction(statusId);
 	}
 }
 async function updateStatusFunction(statusId){
@@ -53,4 +50,39 @@ async function deleteAdmin(adminId){
 function addNewAdminVisible(){
 	let newAdmins = document.querySelector('#add_new_admin');
 	newAdmins.style = "display: block;";
+}
+
+
+function searchIndexInput(){
+	document.getElementById('searchOrderIndex').style = "display: block;";
+}
+if (document.querySelector('#searchOrderIndex')){
+	let searchOrderIndex = document.querySelector('#searchOrderIndex');
+	searchOrderIndex.addEventListener('input',function(e) {
+		let row = '';
+		for (let i=1; i< document.getElementsByClassName('order_row').length; i++){
+			row = document.getElementsByClassName('order_row')[i];
+			row.style = 'display: flex';
+			console.log(row.children[0].innerHTML);
+			if (row.children[0].innerHTML.toLowerCase().includes(searchOrderIndex.value.toLowerCase())) console.log('found');
+			else row.style = 'display: none';
+		}
+	})
+}
+
+function searchDateInput(){
+	document.getElementById('searchDate').style = "display: block;";
+}
+if (document.querySelector('#searchDate')){
+	let searchDate = document.querySelector('#searchDate');
+	searchDate.addEventListener('input',function(e) {
+		let row = '';
+		for (let i=1; i< document.getElementsByClassName('order_row').length; i++){
+			row = document.getElementsByClassName('order_row')[i];
+			row.style = 'display: flex';
+			console.log(row.children[3].innerHTML);
+			if (row.children[3].innerHTML.toLowerCase().includes(searchDate.value.toLowerCase())) console.log('found');
+			else row.style = 'display: none';
+		}
+	})
 }

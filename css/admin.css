@@ -10,6 +10,18 @@ body{
     width: 96%;
     margin: 0 auto;
 }
+.icon{
+    width: 26px;
+    /* height: 21.6px; */
+    margin: 0 0 0 10px;
+}
+.small{
+    font-size: 12px;
+}
+.call{
+    background: rgb(239, 239, 239);
+    padding: 0px 15px;
+}
 .cost{
     display: flex;
 }
@@ -100,6 +112,13 @@ a{
 }
 .order_col{
     width: 16.6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.order_col.payment, .order_row.head > .order_col{
+    flex-direction: row;
 }
 .settings{
     display: flex;
@@ -187,4 +206,9 @@ a{
     border: none;
     cursor: pointer;
     padding: 3px 10px;
+}
+.search{
+    width: 90%;
+    background: rgb(238, 238, 238);
+    border-radius: 7px;
 }

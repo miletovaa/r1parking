@@ -63,12 +63,12 @@ print link to the Settings panel on page
 <? } ?>
     <div id="orders_container">
         <div class="order_row head">
-            <div class="order_col">NR REZERWACJI <a href="?order_by=order_id">&#9650;</a><a href="?order_by=order_id&desc=">&#9660;</a></div>
+            <div class="order_col" style="flex-direction: column;"><div class=""><img src="../img/icons/search.png" width="15" onclick="searchIndexInput()" id="searchIndex" alt=""> NR REZERWACJI <a href="?order_by=order_id">&#9650;</a><a href="?order_by=order_id&desc=">&#9660;</a><br></div><input type="text" id="searchOrderIndex" style="display: none;" class="search"></div>
             <div class="order_col">STATUS <a href="?order_by=order_status">&#9650;</a><a href="?order_by=order_status&desc=">&#9660;</a></div>
             <div class="order_col">DO ZAPŁATY <a href="?order_by=bill">&#9650;</a><a href="?order_by=bill&desc=">&#9660;</a></div>
-            <div class="order_col">PRZYJAZD <a href="?order_by=date_enter">&#9650;</a><a href="?order_by=date_enter&desc=">&#9660;</a></div>
-            <div class="order_col">WYJAZD <a href="?order_by=date_exit">&#9650;</a><a href="?order_by=date_exit&desc=">&#9660;</a></div>
+            <div class="order_col" style="flex-direction: column;"><div class=""><img src="../img/icons/search.png" width="15" onclick="searchDateInput()" id="searchDateInput" alt=""> PRZYJAZD / WYJAZD <a href="?order_by=date_enter">&#9650;</a><a href="?order_by=date_enter&desc=">&#9660;</a></div><input type="date" id="searchDate" style="display: none;" class="search"></div>
             <div class="order_col">next step <a href="?order_by=next_step">&#9650;</a><a href="?order_by=next_step&desc=">&#9660;</a></div>
+            <div class="order_col">REJESTRACJA</div>
             <div class="order_col">KLIENT</div>
         </div>
     <? foreach($orders as $key => $order){?>
@@ -76,21 +76,33 @@ print link to the Settings panel on page
             switch ($order['order_status']){
                 case 1:
                     $class = 'status1';
-                    $order_status = 'Rezerwacja nie potwierdzona.<button class="status_btn" id="s'.$order['order_id'].'">update status</button>';
+                    $order_status = 'Rezerwacja nie potwierdzona.<button class="status_btn" id="s'.$order['order_id'].'" onclick="updateStatusBtn()">Potwierdzona</button>';
                 break;
                 case 2:
                     $class = 'status2';
-                    $order_status = 'Rezerwacja potwierdzona. <button class="status_btn" id="s'.$order['order_id'].'">Samochód na parkingu</button>';
-                    $step = 'Car will arive at ';
+                    $order_status = '<b>POTWIERDZONA</b> <button class="status_btn" id="s'.$order['order_id'].'" onclick="updateStatusBtn()">Samochód na parkingu</button>';
                 break;
                 case 3:
                     $class = 'status3';
-                    $order_status = 'Samochód na parkingu. <button class="status_btn" id="s'.$order['order_id'].'">Samochód odjechał</button>';
-                    $step = 'Car will leave at ';
+                    $order_status = '<b>PRZETWARZANA</b> <button class="status_btn" id="s'.$order['order_id'].'" onclick="updateStatusBtn()">Samochód odjechał</button>';
                 break;
                 case 4:
                     $class = 'status4';
-                    $order_status = 'Samochód odjechał. Zrealizowano!';
+                    $order_status = '<b>ZREALIZOWANA!</b>';
+                break;
+            }
+            switch ($order['payment']){
+                case 'cash':
+                    $img_payment = 'cash.png';
+                    $title_payment = 'Gotówka';
+                break;
+                case 'online':
+                    $img_payment = 'online.png';
+                    $title_payment = 'Online';
+                break;
+                case 'invoice':
+                    $img_payment = 'invoice.png';
+                    $title_payment = 'Faktura';
                 break;
             }
             $result = $db->prepare("SELECT * from clients WHERE id = :client_id");
@@ -99,13 +111,13 @@ print link to the Settings panel on page
             $client = $result->fetchAll(PDO::FETCH_ASSOC)[0];
         ?>
         <div class="order_row <?=$class;?>">
-            <div class="order_col"><?=$order['order_id'];?></div>
+            <div class="order_col"><?=$order['id'];?><br><span class="small"><?=$order['order_id'];?></span></div>
             <div class="order_col"><?=$order_status;?></div>
-            <div class="order_col"><?=$order['bill'];?> zł (<?=$order['payment'];?>)</div>
-            <div class="order_col"><?=$order['date_enter'];?></div>
-            <div class="order_col"><?=$order['date_exit'];?></div>
+            <div class="order_col payment"><?=$order['bill'];?> zł <img class="icon" src="../img/icons/<?=$img_payment;?>" alt="" title="<?=$title_payment;?>"></div>
+            <div class="order_col">&#129042;<?=$order['date_enter'];?><br><?=$order['date_exit'];?>&#129042;</div>
             <div class="order_col"><?=$step;?><?=$order['next_step'];?></div>
-            <div class="order_col"><?=$client['name'];?> <?=$client['tel'];?> <?=$client['mail'];?></div>
+            <div class="order_col"><?=$order['registration'];?></div>
+            <div class="order_col"><?=$client['name'];?> <br> <b><?=$client['tel'];?></b><a class="call" href="tel:<?=$client['tel'];?>">ZADZWOŃ</a></div>
         </div>
     <?}?>
     </div>
