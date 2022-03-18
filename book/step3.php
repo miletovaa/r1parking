@@ -37,6 +37,7 @@ $translate = Database::translator($lang);
 */
 $client_isset = false;
 $tel = $_POST['tel'];
+$mail = (isset($_POST['mail'])) ? $_POST['mail'] : '-';
 $query = "SELECT * from clients WHERE tel = :tel";
 $result = $db->prepare($query);
 $result->bindParam(":tel", $tel, PDO::PARAM_STR);
@@ -76,7 +77,10 @@ date_exit = :date_exit,
 time_exit = :time_exit,
 for_days = :for_days,
 bill = :bill,
-client_id = :client_id
+client_id = :client_id,
+name_client = :name_client,
+tel_client = :tel_client,
+mail_client = :mail_client
 WHERE order_id = :order_id";
 $result = $db->prepare($query);
 $result->bindParam(":last_update",$last_update, PDO::PARAM_STR);
@@ -87,6 +91,9 @@ $result->bindParam(":time_exit",$_POST['time_exit'], PDO::PARAM_STR);
 $result->bindParam(":for_days",$_POST['for_days'], PDO::PARAM_INT);
 $result->bindParam(":bill",$_POST['bill'], PDO::PARAM_INT);
 $result->bindParam(":client_id",$client_id, PDO::PARAM_INT);
+$result->bindParam(":name_client",$_POST['name'], PDO::PARAM_INT);
+$result->bindParam(":tel_client",$tel, PDO::PARAM_INT);
+$result->bindParam(":mail_client",$mail, PDO::PARAM_INT);
 $result->bindParam(":order_id",$_COOKIE['order_id'], PDO::PARAM_STR);
 $result->execute();
 
@@ -120,12 +127,14 @@ $result2->execute();
 					<input type="number" min="0" name="adults" id="adultsForm">
 				</div>
 				<div class="input_row"> 
-					<div class="input_label_step3 person"><?=$translate['children'];?></div>
-					<input type="number" min="0" name="children" id="childrenForm">
+					<div class="input_label_step3 person unselected" onclick="inputChildrenFunc()"><?=$translate['children'];?><button type="button" id="inputChildren" onclick="inputChildrenFunc()">+</button></div>
+					
+					<input type="number" min="0" name="children" id="childrenForm" style="display:none">
 				</div>
 				<div class="input_row"> 
-					<div class="input_label_step3 person"><?=$translate['disabled'];?></div>
-					<input type="number" min="0" name="disabled" id="disabledForm">
+					<div class="input_label_step3 person unselected" onclick="inputDisabledFunc()"><?=$translate['disabled'];?><button type="button" id="inputDisabled" onclick="inputDisabledFunc()">+</button></div>
+
+					<input type="number" min="0" name="disabled" id="disabledForm" style="display:none">
 				</div>
 			</div>
 			<div class="car_row">
@@ -134,8 +143,9 @@ $result2->execute();
 					<input type="number" min="0" max="8" name="cars" id="carsForm" onchange="carsInputs()">
 				</div>
 				<div class="input_row"> 
+					<input type="hidden" name="registration" id="registrationForm">
 					<div class="input_label_step3"><?=$translate['registration'];?></div>
-					<input class="step3_reg" type="text" name="registration" id="registrationForm">
+					<input class="step3_reg reg" type="text" onchange="registrationsCollect()">
 				</div>
 			</div>
 			<div class="input_row"> 
@@ -213,11 +223,11 @@ $result2->execute();
 				<hr>
 				<div class="input_row row">
 					<input id="freeHelp" type="checkbox" name="free_help">
-					<div class="input_label_step3" onclick="freeHelpChecked()"><?=$translate['i_want_free_assistance'];?></div>
+					<div class="input_label_step3 note" onclick="freeHelpChecked()"><?=$translate['i_want_free_assistance'];?></div>
 				</div>
 				<div class="input_row row">
 					<input id="subscribeForm" type="checkbox" name="subscribe">
-					<div class="input_label_step3" onclick="sbscrbChecked()"><?=$translate['commercial_information'];?></div>
+					<div class="input_label_step3 note" onclick="sbscrbChecked()"><?=$translate['commercial_information'];?></div>
 				</div>
 				<div class="note">
 					<?=$translate['agree'];?>

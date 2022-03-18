@@ -19,23 +19,28 @@ class Database {
         return $moderator;
     }
     public static function setLang() {
-        $pref = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"], 0, 2);
+        $pref = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"], 0, 2); // here is the language from user's browser settings
         $db = Database::getConnection();
         $query = "SELECT lang FROM `translator`";
         $result = $db->prepare($query);
         $result->execute();
-        $langs = $result->fetchAll(PDO::FETCH_ASSOC);
+        $langs = $result->fetchAll(PDO::FETCH_ASSOC); // fetch array of all available languages
         foreach($langs as $key => $l) $langs_arr[]=$l['lang'];
         if (in_array($pref, $langs_arr)) $lang = $pref;
         else $lang = 'pl';
-        if (isset($_GET['lang'])) $lang = $_GET['lang'];
+        if (!$_COOKIE['lang']) setcookie("lang", $lang, time() + 72*60*60, "/"); // set cookie param if it doesn't exist at the moment
+        if (isset($_GET['lang'])) { // if user have chosen any language in header - set it to the cookie instead of the previous one
+            $lang = $_GET['lang']; 
+            setcookie("lang", $lang, time() + 72*60*60, "/");
+        }
         return $lang;
     }
     public static function translator($lang) {
         $db = Database::getConnection();
         $query = "SELECT * FROM `translator` WHERE lang = :lang";
         $result = $db->prepare($query);
-        $result->bindParam(":lang", $lang, PDO::PARAM_STR);
+        $l = (isset($_GET['lang'])) ? $_GET['lang'] : $_COOKIE['lang'];
+        $result->bindParam(":lang", $l, PDO::PARAM_STR);
         $result->execute();
         $translate = $result->fetch(PDO::FETCH_ASSOC);
         return $translate;

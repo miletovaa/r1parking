@@ -49,7 +49,7 @@ $last_update = $last_update_q->fetchAll(PDO::FETCH_ASSOC)[0]['last_update'];
 </head>
 <body>
 <div id="lastUpdate" style="display:none;"><?=$last_update;?></div>
-    <h1>Wszystkie rezerwacje </h1>
+    <h1><a href="orders_panel.php"> Wszystkie rezerwacje </a></h1>
     <a href="today.php">DZIŚ &#9654;</a> 
 <!-- 
 if admin's level allows edit settings,
@@ -61,11 +61,12 @@ print link to the Settings panel on page
     <div id="orders_container">
         <div class="order_row head">
             <div class="order_col" style="flex-direction: column;"><div class=""><img src="../img/icons/search.png" width="15" onclick="searchIndexInput()" id="searchIndex" alt=""> NR REZERWACJI <a href="?order_by=order_id">&#9650;</a><a href="?order_by=order_id&desc=">&#9660;</a><br></div><input type="text" id="searchOrderIndex" style="display: none;" class="search"></div>
-            <div class="order_col">STATUS <a href="?order_by=order_status">&#9650;</a><a href="?order_by=order_status&desc=">&#9660;</a></div>
+            <div class="order_col" style="flex-direction: column;"><div class=""><img src="../img/icons/search.png" width="15" onclick="searchStatus()" id="searchStatus" alt=""> STATUS <a href="?order_by=order_status">&#9650;</a><a href="?order_by=order_status&desc=">&#9660;</a><br></div><select id="searchStatusInput" style="display: none;" class="search"><option value="zrealizowana">ZREALIZOWANA</option><option value="potwierdzona">POTWIERDZONA</option><option value="PRZETWARZANA">PRZETWARZANA</option><option value="Nie potwierdzona">Nie potwierdzona</option></select></div>
             <div class="order_col">DO ZAPŁATY <a href="?order_by=bill">&#9650;</a><a href="?order_by=bill&desc=">&#9660;</a></div>
             <div class="order_col" style="flex-direction: column;"><div class=""><img src="../img/icons/search.png" width="15" onclick="searchDateInput()" id="searchDateInput" alt=""> PRZYJAZD / WYJAZD <a href="?order_by=date_enter">&#9650;</a><a href="?order_by=date_enter&desc=">&#9660;</a></div><input type="date" id="searchDate" style="display: none;" class="search"></div>
-            <div class="order_col">REJESTRACJA</div>
-            <div class="order_col">KLIENT</div>
+            <div class="order_col" style="flex-direction: column;"><div class=""><img src="../img/icons/search.png" width="15" onclick="searchRegInput()" id="searchReg" alt=""> REJESTRACJA <br></div><input type="text" id="searchRegInput" style="display: none;" class="search"></div>
+            <div class="order_col" style="flex-direction: column;"><div class=""><img src="../img/icons/search.png" width="15" onclick="searchClient()" id="searchCli" alt=""> KLIENT <br></div><input type="text" id="searchClientInput" style="display: none;" class="search"></div>
+            <!-- <div class="order_col">KLIENT</div> -->
         </div>
     <? foreach($orders as $key => $order){?>
         <?
@@ -101,10 +102,10 @@ print link to the Settings panel on page
                     $title_payment = 'Faktura';
                 break;
             }
-            $result = $db->prepare("SELECT * from clients WHERE id = :client_id");
+            /* $result = $db->prepare("SELECT * from clients WHERE id = :client_id");
             $result->bindParam(":client_id", $order['client_id'], PDO::PARAM_INT);
             $result->execute();
-            $client = $result->fetchAll(PDO::FETCH_ASSOC)[0];
+            $client = $result->fetchAll(PDO::FETCH_ASSOC)[0]; */
         ?>
         <div class="order_row <?=$class;?>">
             <div class="order_col"><?=$order['id'];?><br><span class="small"><?=$order['order_id'];?></span></div>
@@ -112,7 +113,7 @@ print link to the Settings panel on page
             <div class="order_col payment"><?=$order['bill'];?> zł <img class="icon" src="../img/icons/<?=$img_payment;?>" alt="" title="<?=$title_payment;?>"></div>
             <div class="order_col">&#129042;<?=$order['date_enter'];?><br><?=$order['date_exit'];?>&#129042;</div>
             <div class="order_col"><?=$order['registration'];?></div>
-            <div class="order_col"><?=$client['name'];?> <br> <b><?=$client['tel'];?></b><a class="call" href="tel:<?=$client['tel'];?>">ZADZWOŃ</a></div>
+            <div class="order_col"><?=$order['name_client'];?> <br> <b><?=$order['tel_client'];?></b><a class="call" href="tel:<?=$order['tel_client'];?>">ZADZWOŃ</a></div>
         </div>
     <?}?>
     </div>

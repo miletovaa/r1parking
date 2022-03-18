@@ -13,9 +13,9 @@
         <div class=""><a href="?lang=<?=$lang;?>"><div class="link rezerwacja"><?=$translate['booking'];?></div></a></div>
         <div id="langs">
             <select name="lang" id="langSelect" onchange="changeLang()">
-                <option value="pl" <? if($lang == 'pl') echo 'selected'; ?>>PL</option>
-                <option value="en" <? if($lang == 'en') echo 'selected'; ?>>EN</option>
-                <option value="ru" <? if($lang == 'ru') echo 'selected'; ?>>RU</option>
+                <option value="pl" <? if($_COOKIE['lang'] == 'pl' or $_GET['lang'] == 'pl') echo 'selected'; ?>>PL</option>
+                <option value="en" <? if($_COOKIE['lang'] == 'en' or $_GET['lang'] == 'en') echo 'selected'; ?>>EN</option>
+                <option value="ru" <? if($_COOKIE['lang'] == 'ru' or $_GET['lang'] == 'ru') echo 'selected'; ?>>RU</option>
             </select>
         </div>
     </div>

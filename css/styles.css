@@ -389,6 +389,19 @@ margin: 15px 0;
     width: 600px;
     margin: 20px 0;
 }
+#inputChildren, #inputDisabled{
+    margin: 0 0 0 10px;
+    color: #9797a4;
+    font-weight: bold;
+    background: #e9e9ed;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.unselected{
+    color: #9797a4;
+    cursor: pointer;
+}
 .block_step3{
     border-radius: 15px;
     border: 1px solid #B4B4B4;

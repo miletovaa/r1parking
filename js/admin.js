@@ -55,6 +55,9 @@ function addNewAdminVisible(){
 
 function searchIndexInput(){
 	document.getElementById('searchOrderIndex').style = "display: block;";
+	document.getElementById('searchDate').style = "display: none;";
+	document.getElementById('searchStatusInput').style = "display: none;";
+	document.getElementById('searchClientInput').style = "display: none;";
 }
 if (document.querySelector('#searchOrderIndex')){
 	let searchOrderIndex = document.querySelector('#searchOrderIndex');
@@ -72,6 +75,10 @@ if (document.querySelector('#searchOrderIndex')){
 
 function searchDateInput(){
 	document.getElementById('searchDate').style = "display: block;";
+	document.getElementById('searchOrderIndex').style = "display: none;";
+	document.getElementById('searchStatusInput').style = "display: none;";
+	document.getElementById('searchRegInput').style = "display: none;";
+	document.getElementById('searchClientInput').style = "display: none;";
 }
 if (document.querySelector('#searchDate')){
 	let searchDate = document.querySelector('#searchDate');
@@ -82,6 +89,71 @@ if (document.querySelector('#searchDate')){
 			row.style = 'display: flex';
 			console.log(row.children[3].innerHTML);
 			if (row.children[3].innerHTML.toLowerCase().includes(searchDate.value.toLowerCase())) console.log('found');
+			else row.style = 'display: none';
+		}
+	})
+}
+
+function searchStatus(){
+	document.getElementById('searchStatusInput').style = "display: block;";
+	document.getElementById('searchDate').style = "display: none;";
+	document.getElementById('searchOrderIndex').style = "display: none;";
+	document.getElementById('searchRegInput').style = "display: none;";
+	document.getElementById('searchClientInput').style = "display: none;";
+}
+if (document.querySelector('#searchStatusInput')){
+	let searchStatus = document.querySelector('#searchStatusInput');
+	searchStatus.addEventListener('input',function(e) {
+		let row = '';
+		for (let i=1; i< document.getElementsByClassName('order_row').length; i++){
+			row = document.getElementsByClassName('order_row')[i];
+			row.style = 'display: flex';
+			console.log(row.children[1].innerHTML);
+			if (row.children[1].innerHTML.toLowerCase().includes(searchStatus.value.toLowerCase())){
+				if (searchStatus.value.toLowerCase() == 'potwierdzona' && row.children[1].innerHTML.toLowerCase().includes('nie')) row.style = 'display: none';
+			}
+			else row.style = 'display: none';
+		}
+	})
+}
+
+function searchRegInput(){
+	document.getElementById('searchRegInput').style = "display: block;";
+	document.getElementById('searchOrderIndex').style = "display: none;";
+	document.getElementById('searchDate').style = "display: none;";
+	document.getElementById('searchStatusInput').style = "display: none;";
+	document.getElementById('searchClientInput').style = "display: none;";
+}
+if (document.querySelector('#searchRegInput')){
+	let searchReg = document.querySelector('#searchRegInput');
+	searchReg.addEventListener('input',function(e) {
+		let row = '';
+		for (let i=1; i< document.getElementsByClassName('order_row').length; i++){
+			row = document.getElementsByClassName('order_row')[i];
+			row.style = 'display: flex';
+			console.log(row.children[4].innerHTML);
+			if (row.children[4].innerHTML.toLowerCase().includes(searchReg.value.toLowerCase())) console.log('found');
+			else row.style = 'display: none';
+		}
+	})
+}
+
+function searchClient(){
+	document.getElementById('searchClientInput').style = "display: block;";
+	document.getElementById('searchRegInput').style = "display: none;";
+	document.getElementById('searchOrderIndex').style = "display: none;";
+	document.getElementById('searchDate').style = "display: none;";
+	document.getElementById('searchStatusInput').style = "display: none;";
+}
+if (document.querySelector('#searchClientInput')){
+	let searchCli = document.querySelector('#searchClientInput');
+	searchCli.addEventListener('input',function(e) {
+		let row = '';
+		for (let i=1; i< document.getElementsByClassName('order_row').length; i++){
+			row = document.getElementsByClassName('order_row')[i];
+			row.style = 'display: flex';
+			console.log(row.children[5].innerHTML);
+			if (row.children[5].innerHTML.toLowerCase().includes(searchCli.value.toLowerCase())) console.log('found');
 			else row.style = 'display: none';
 		}
 	})

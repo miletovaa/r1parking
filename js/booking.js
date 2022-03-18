@@ -88,6 +88,11 @@ function countBill(){
 */
 function addToBill(){
 	let costParking = parseInt(document.querySelector('#costParking').innerHTML);
+	if (document.querySelector('#carsForm').value >= 1){
+		costParking = costParking * document.querySelector('#carsForm').value;
+	}
+	document.querySelector('#costAll').innerHTML = costParking;
+
 	let more = 0;
 	if (document.querySelector('#keysForm').checked === true) {
 		more = more + parseInt(document.querySelector('#costKeys').innerHTML);
@@ -128,6 +133,7 @@ function carsInputs(){
 			while(document.querySelector('#carsForm').value > document.getElementsByClassName('step3_reg').length){
 				// document.getElementsByClassName('step3_reg')[-1].remove();
 				newInp = document.querySelector('.step3_reg').cloneNode();
+				newInp.value = '';
 				document.getElementsByClassName('step3_reg')[0].after(newInp);
 			}
 		}else if (document.querySelector('#carsForm').value < document.getElementsByClassName('step3_reg').length){
@@ -136,5 +142,30 @@ function carsInputs(){
 			}
 		}
 		lastRegInput = document.querySelector('#carsForm').previousSibling;
+
+		addToBill();
 	}
+}
+
+/*
+* Functions that make children and disabled persons fields available
+*/
+function inputChildrenFunc(){
+	document.getElementById('childrenForm').style = "display: block;";
+	document.getElementById('inputChildren').style = "display: none;";
+	document.getElementById('inputChildren').parentElement.classList.remove('unselected');
+}
+function inputDisabledFunc(){
+	document.getElementById('disabledForm').style = "display: block;";
+	document.getElementById('inputDisabled').style = "display: none;";
+	document.getElementById('inputDisabled').parentElement.classList.remove('unselected');
+}
+
+function registrationsCollect(){
+	let registration = '';
+	for (let i=0; i< document.getElementsByClassName('reg').length; i++){
+		reg = document.getElementsByClassName('reg')[i];
+		registration = registration + reg.value + '; ';
+	}
+	document.getElementById('registrationForm').value = registration;
 }
