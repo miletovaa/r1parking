@@ -1,98 +1,41 @@
 <?
 session_start();
-/* 
-* Connection with Database
-*/
+
+// * LOG OUT
+if (isset($_GET['logout'])) {
+    setcookie("client_tel", '', time() + 0, "/");
+    header('Location: ?');
+}
+
+if(!$_COOKIE['client_tel']) header('Location: ../PL/R-1.php');
+
 require '../db.php';
-$db = Database::getConnection();
+require '../functions/translator.php';
+
+/* 
+* Fetch required data
+*/
+$query = "SELECT * from orders WHERE order_id = :order_id";
+$result = $db->prepare($query);
+$result->bindParam(":order_id", $_COOKIE['order_id'], PDO::PARAM_STR);
+$result->execute();
+$order = $result->fetch(PDO::FETCH_ASSOC);
 
 /*
-* This function fetches some settings from the Database
-* such as prices etc.
-* This settings can be edited by admins in Admin Panel anytime
-* and the changes will be on the site immediately
+* Sending pdf-file to e-mail if requested.
 */
-$moderator = Database::moderatorSettings();
-
-/* 
-* Here is a fuction that sets language
-* depending on browser settings of user
-* OR
-* users choice in the header of the cite
-*/
-$lang = Database::setLang();
-
-/* 
-* That function fetches site data from the Database
-* depending on set language
-*/
-$translate = Database::translator($lang);
-
-/* 
-* Parse provided data before pasting it to the Database.
-*/
-$passengers = '';
-if ($_POST['adults'] != 0) $passengers .= 'A-'.$_POST['adults'].';';
-if ($_POST['children'] != 0) $passengers .= 'C-'.$_POST['children'].';';
-if ($_POST['disabled'] != 0) $passengers .= 'D-'.$_POST['disabled'].';';
-$cars = (isset($_POST['cars'])) ? $_POST['cars'] : 0;
-$registration = (isset($_POST['registration'])) ? $_POST['registration'] : '-';
-$back_from = (isset($_POST['back_from'])) ? $_POST['back_from'] : '-';
-$comments = (isset($_POST['comments'])) ? $_POST['comments'] : '-';
-$key_safe = (isset($_POST['keys'])) ? 1 : 0;
-$free_help = (isset($_POST['free_help'])) ? 1 : 0;
-$subscribe = (isset($_POST['subscribe'])) ? 1 : 0;
-$vat = isset($_POST['vat']) ? 1 : 0;
-$vat_name = isset($_POST['vat_name']) ? $_POST['vat_name'] : '';
-$vat_nip = isset($_POST['vat_nip']) ? $_POST['vat_nip'] : '';
-$vat_address = isset($_POST['vat_address']) ? $_POST['vat_address'] : '';
-$vat_postcode = isset($_POST['vat_postcode']) ? $_POST['vat_postcode'] : '';
-$vat_city = isset($_POST['vat_city']) ? $_POST['vat_city'] : '';
-$last_update = date('y-m-d H:i:s');
-
-/* 
-* Updating `ORDERS` table with new order info
-*/
-$query = "UPDATE orders SET 
-last_update = :last_update,
-order_status = 1,
-passengers = :passengers,
-cars = :cars,
-registration = :registration,
-back_from = :back_from,
-comments = :comments,
-key_safe = :key_safe,
-payment = :payment,
-vat = :vat,
-vat_name = :vat_name,
-vat_nip = :vat_nip,
-vat_address = :vat_address,
-vat_postcode = :vat_postcode,
-vat_city = :vat_city,
-free_help = :free_help,
-subscribe = :subscribe,
-bill = :bill
-WHERE order_id = :order_id";
-$result = $db->prepare($query);
-$result->bindParam(":last_update",$last_update, PDO::PARAM_STR);
-$result->bindParam(":passengers",$passengers, PDO::PARAM_STR);
-$result->bindParam(":cars",$cars, PDO::PARAM_INT);
-$result->bindParam(":registration",$registration, PDO::PARAM_STR);
-$result->bindParam(":back_from",$back_from, PDO::PARAM_STR);
-$result->bindParam(":comments",$comments, PDO::PARAM_STR);
-$result->bindParam(":key_safe",$key_safe, PDO::PARAM_INT);
-$result->bindParam(":payment",$_POST['payment'], PDO::PARAM_STR);
-$result->bindParam(":vat",$vat, PDO::PARAM_INT);
-$result->bindParam(":vat_name",$vat_name, PDO::PARAM_STR);
-$result->bindParam(":vat_nip",$vat_nip, PDO::PARAM_STR);
-$result->bindParam(":vat_address",$vat_address, PDO::PARAM_STR);
-$result->bindParam(":vat_postcode",$vat_postcode, PDO::PARAM_STR);
-$result->bindParam(":vat_city",$vat_city, PDO::PARAM_STR);
-$result->bindParam(":free_help",$free_help, PDO::PARAM_INT);
-$result->bindParam(":subscribe",$subscribe, PDO::PARAM_INT);
-$result->bindParam(":bill",$_POST['bill'], PDO::PARAM_INT);
-$result->bindParam(":order_id",$_COOKIE['order_id'], PDO::PARAM_STR);
-$result->execute();
+if (isset($_POST['mail'])){
+	$mail = $_POST['mail'];
+	if($order['mail_confirmed'] != 1 && $order['mail_client'] != '' && $order['mail_code'] == null){
+		$mailto = $order['mail_client'];
+		include 'mail_verif.php';
+	}
+	$query = "UPDATE orders SET mail_client = :mail_client  WHERE order_id = :order_id";
+	$result = $db->prepare($query);
+	$result->bindParam(":mail_client",$mail, PDO::PARAM_STR);
+	$result->bindParam(":order_id",$_COOKIE['order_id'], PDO::PARAM_STR);
+	$result->execute();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,11 +45,62 @@ $result->execute();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../css/styles.css">
     <title><?=$translate['parking_warsaw'];?> | R1 PARKING</title>
+
 </head>
 <body>
 <header><? include '../blocks/header.php'?></header>
-    <div class="container">
-        <div class="finish"><?=$translate['check_your_email'];?></div>
+
+<?
+if($order['mail_confirmed'] == 1 && $order['mail_client'] != ''){
+    $mail_btn = 'sent_to_your_email'; $mail_btn_class = 'disabled'; $disabled = 'disabled'; $mail_client = $order['mail_client'];
+}else if($order['mail_client'] != ''){
+    $mail_func = 'noConfirm()'; $mail_btn = 'send_to_email';?>
+<div id="mail_container" style="display: <? echo (isset($_POST['mail'])) ? 'block;': 'none;' ?> ;">
+	<div id="mail_confirm">
+		<div>
+			<span id="cross" onclick="document.getElementById('mail_container').style = 'display: none;'">x</span>
+			<?=$translate['confirm_your_email_to_get_bill'];?>
+		</div>
+	</div>
+</div>
+<?
+}else{
+    $mail_func = 'noMailnoConfirm()'; $mail_btn = 'send_to_email';?>
+<div id="mail_container" style="display: none;">
+	<div id="mail_confirm">
+		<div id="mail_enter">
+			<span id="cross" onclick="document.getElementById('mail_container').style = 'display: none;'">x</span>
+            <form action="" method="post" style="display: flex; flex-direction:column; align-items: center;">
+                <input type="text" placeholder="<?=$translate['enter_your_email'];?>" name="mail" style="font-size: 18px; padding: 2px; width: 204px;margin:10px 0 0 0;">
+                <input class="finish_btn" style="margin: 16px auto 0;" type="submit" value="<?=$translate['send_code'];?>">
+            </form>
+		</div>
+	</div>
+</div>
+<?
+}
+?>
+    <div class="container column" style="align-items: center; min-height: 75vh;">
+    <div class="" style="text-align: center; width: 100%;"><?=$translate['your_reservation'];?></div>
+        <div class="finish_btns_container">
+            <span class="finish_btn" onclick="window.location.href = '../PL/R1.php';"><?=$translate['to_the_main_page'];?></span>
+            <span class="finish_btn <?=$mail_btn_class;?>" <?=$disabled;?> onclick="<?=$mail_func;?>"><?=$translate[$mail_btn];?><br><?=$mail_client;?></span>
+        </div>
+        <object width="400" height="500" type="application/pdf" data="https://<?=$_SERVER['HTTP_HOST'];?>/book/confirms/<?=$_COOKIE['order_id'];?>.pdf">
+            <iframe src="https://docs.google.com/viewer?url=https://<?=$_SERVER['HTTP_HOST'];?>/book/confirms/<?=$_COOKIE['order_id'];?>.pdf&embedded=true" frameborder="0"></iframe>
+        </object>
     </div>
+<? include '../blocks/footer.php'?>
+<script src="../js/booking.js"></script>
+<script>
+    function noConfirm(){
+console.log('no confirm');
+document.getElementById('mail_container').style = 'display: block';
+    }
+    function noMailnoConfirm(){
+console.log('no mail no confirm');
+document.getElementById('mail_container').style = 'display: block';
+    }
+</script>
 </body>
 </html>

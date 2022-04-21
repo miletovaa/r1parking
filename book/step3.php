@@ -1,108 +1,116 @@
 <?
 session_start();
-/* 
-* Connection with Database
-*/
 require '../db.php';
-$db = Database::getConnection();
+require '../functions/translator.php';
+require '../functions/moderator.php';
+require '../functions/telegram.php';
 
-/*
-* This function fetches some settings from the Database
-* such as prices etc.
-* This settings can be edited by admins in Admin Panel anytime
-* and the changes will be on the site immediately
-*/
-$moderator = Database::moderatorSettings();
-
-/* 
-* Here is a fuction that sets language
-* depending on browser settings of user
-* OR
-* users choice in the header of the cite
-*/
-$lang = Database::setLang();
-
-/* 
-* That function fetches site data from the Database
-* depending on set language
-*/
-$translate = Database::translator($lang);
-
-/* 
-* Checking if we already have in Database client with such Phone number.
-*
-* If YES, we select client's ID from the Database to add new order to the client's row
-*
-* If NO, we create new row to the `CLIENTS` table in Database with provided users's info
-*/
-$client_isset = false;
-$tel = $_POST['tel'];
-$mail = (isset($_POST['mail'])) ? $_POST['mail'] : '-';
-$query = "SELECT * from clients WHERE tel = :tel";
-$result = $db->prepare($query);
-$result->bindParam(":tel", $tel, PDO::PARAM_STR);
-$result->execute();
-$client = $result->fetchAll(PDO::FETCH_ASSOC)[0];
-if (!is_null($client)){
-	$client_isset = true;
-	$client_id = $client['id'];
-	$client_orders = $client['orders'];
-} 
-$mail = isset($_POST['mail']) ? $_POST['mail'] : '-';
-if (!$client_isset){
-	$query = "INSERT INTO `clients` (`name`,`tel`,`mail`) VALUES (:client_name,:tel,:mail)";
-	$result = $db->prepare($query);
-	$result->bindParam(":client_name", $_POST['name'], PDO::PARAM_STR);
-	$result->bindParam(":tel", $tel, PDO::PARAM_STR);
-	$result->bindParam(":mail", $mail, PDO::PARAM_STR);
-	$result->execute();
-
-	$query = "SELECT * from clients WHERE tel = :tel";
-	$result = $db->prepare($query);
-	$result->bindParam(":tel", $tel, PDO::PARAM_STR);
-	$fetch = $result->fetch(PDO::FETCH_ASSOC);
-	$client_id = $fetch['id'];
-	$client_orders = '';
+// * LOG OUT
+if (isset($_GET['logout'])) {
+    setcookie("client_tel", '', time() + 0, "/");
+    header('Location: ?');
 }
 
-/* 
-* Updating `ORDERS` table with new order info
-*/
-$last_update = date('y-m-d H:i:s');
-$query = "UPDATE orders SET 
-last_update = :last_update,
-date_enter = :date_enter,
-time_enter = :time_enter,
-date_exit = :date_exit,
-time_exit = :time_exit,
-for_days = :for_days,
-bill = :bill,
-client_id = :client_id,
-name_client = :name_client,
-tel_client = :tel_client,
-mail_client = :mail_client
-WHERE order_id = :order_id";
-$result = $db->prepare($query);
-$result->bindParam(":last_update",$last_update, PDO::PARAM_STR);
-$result->bindParam(":date_enter",$_POST['date_enter'], PDO::PARAM_STR);
-$result->bindParam(":time_enter",$_POST['time_enter'], PDO::PARAM_STR);
-$result->bindParam(":date_exit",$_POST['date_exit'], PDO::PARAM_STR);
-$result->bindParam(":time_exit",$_POST['time_exit'], PDO::PARAM_STR);
-$result->bindParam(":for_days",$_POST['for_days'], PDO::PARAM_INT);
-$result->bindParam(":bill",$_POST['bill'], PDO::PARAM_INT);
-$result->bindParam(":client_id",$client_id, PDO::PARAM_INT);
-$result->bindParam(":name_client",$_POST['name'], PDO::PARAM_INT);
-$result->bindParam(":tel_client",$tel, PDO::PARAM_INT);
-$result->bindParam(":mail_client",$mail, PDO::PARAM_INT);
-$result->bindParam(":order_id",$_COOKIE['order_id'], PDO::PARAM_STR);
-$result->execute();
+if(!$_COOKIE['client_tel']) header('Location: ../PL/R-1.php');
 
-$client_orders .= $_COOKIE['order_id'].'; ';
-$query2 = "UPDATE clients SET orders = :orders WHERE id = :client_id";
-$result2 = $db->prepare($query2);
-$result2->bindParam(":orders",$client_orders, PDO::PARAM_STR);
-$result2->bindParam(":client_id",$client_id, PDO::PARAM_INT);
-$result2->execute();
+$query = "SELECT * from orders WHERE order_id = :order_id";
+$result = $db->prepare($query);
+$result->bindParam(":order_id", $_COOKIE['order_id'], PDO::PARAM_STR);
+$result->execute();
+$order = $result->fetch(PDO::FETCH_ASSOC);
+$tel = $order['tel_client'];
+
+if (isset($_POST['book'])){
+	$passengers = ($_POST['adults'] != 0) ? 'A-'.$_POST['adults'].';' : 'A-1;';
+	if ($_POST['children'] != 0) $passengers .= 'C-'.$_POST['children'].';';
+	if ($_POST['disabled'] != 0) $passengers .= 'D-'.$_POST['disabled'].';';
+	$cars = (isset($_POST['cars'])) ? $_POST['cars'] : 0;
+	$registration = (isset($_POST['registration'])) ? $_POST['registration'] : '-';
+	$back_from = (isset($_POST['back_from'])) ? $_POST['back_from'] : '-';
+	$comments = (isset($_POST['comments'])) ? $_POST['comments'] : '-';
+	$key_safe = (isset($_POST['keys'])) ? 1 : 0;
+	$free_help = (isset($_POST['free_help'])) ? 1 : 0;
+	$subscribe = (isset($_POST['subscribe'])) ? 1 : 0;
+	$vat = isset($_POST['vat']) ? 1 : 0;
+	$vat_name = isset($_POST['vat_name']) ? $_POST['vat_name'] : '';
+	$vat_nip = isset($_POST['vat_nip']) ? $_POST['vat_nip'] : '';
+	$vat_address = isset($_POST['vat_address']) ? $_POST['vat_address'] : '';
+	$vat_postcode = isset($_POST['vat_postcode']) ? $_POST['vat_postcode'] : '';
+	$vat_city = isset($_POST['vat_city']) ? $_POST['vat_city'] : '';
+	$last_update = date('y-m-d H:i:s');
+
+	/* 
+	* Updating `ORDERS` table with new order info
+	*/
+	$query = "UPDATE orders SET 
+	order_status = 2,
+	last_update = :last_update,
+	passengers = :passengers,
+	cars = :cars,
+	registration = :registration,
+	back_from = :back_from,
+	comments = :comments,
+	key_safe = :key_safe,
+	payment = :payment,
+	vat = :vat,
+	vat_name = :vat_name,
+	vat_nip = :vat_nip,
+	vat_address = :vat_address,
+	vat_postcode = :vat_postcode,
+	vat_city = :vat_city,
+	free_help = :free_help,
+	subscribe = :subscribe,
+	book_finish = :book_finish
+	WHERE order_id = :order_id";
+	$result = $db->prepare($query);
+	$result->bindParam(":last_update",$last_update, PDO::PARAM_STR);
+	$result->bindParam(":passengers",$passengers, PDO::PARAM_STR);
+	$result->bindParam(":cars",$cars, PDO::PARAM_INT);
+	$result->bindParam(":registration",$registration, PDO::PARAM_STR);
+	$result->bindParam(":back_from",$back_from, PDO::PARAM_STR);
+	$result->bindParam(":comments",$comments, PDO::PARAM_STR);
+	$result->bindParam(":key_safe",$key_safe, PDO::PARAM_INT);
+	$result->bindParam(":payment",$_POST['payment'], PDO::PARAM_STR);
+	$result->bindParam(":vat",$vat, PDO::PARAM_INT);
+	$result->bindParam(":vat_name",$vat_name, PDO::PARAM_STR);
+	$result->bindParam(":vat_nip",$vat_nip, PDO::PARAM_STR);
+	$result->bindParam(":vat_address",$vat_address, PDO::PARAM_STR);
+	$result->bindParam(":vat_postcode",$vat_postcode, PDO::PARAM_STR);
+	$result->bindParam(":vat_city",$vat_city, PDO::PARAM_STR);
+	$result->bindParam(":free_help",$free_help, PDO::PARAM_INT);
+	$result->bindParam(":subscribe",$subscribe, PDO::PARAM_INT);
+	$result->bindParam(":book_finish",$last_update, PDO::PARAM_STR);
+	$result->bindParam(":order_id",$_COOKIE['order_id'], PDO::PARAM_STR);
+	$result->execute();
+
+	/*
+	* GENERATING bill, reservation file and VAT invoice (if it was requested)
+	*/
+	include 'paragon.php';
+	include 'confirmation.php';
+	if ($vat == 1) include 'vat.php';
+
+	$query = "SELECT * from orders WHERE order_id = :order_id";
+	$result = $db->prepare($query);
+	$result->bindParam(":order_id", $_COOKIE['order_id'], PDO::PARAM_STR);
+	$result->execute();
+	$order = $result->fetch(PDO::FETCH_ASSOC);
+
+	/*
+	* Updating message from Telegram Bot.
+	*/
+	$mes = "🟢 Potwierdzona\n".$order['name_client']."\n".$order['tel_client']."\nRezerwacja - ".$order['order_id']."\n".$order['bill']." zł - Na ".$order['for_days']." dni";
+	$message_id = TelegramBot::updateMessage($mes, $order['message_id']);
+
+	/*
+	* If e-mail wasn't verified yet, send message with unique verification link.
+	*/
+	if($order['mail_confirmed'] != 1 && $order['mail_client'] != '' && $order['mail_code'] == null){
+		$mailto = $order['mail_client'];
+		include 'mail_verif.php';
+	}
+    $refresh = 'true';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,10 +122,13 @@ $result2->execute();
 	<title><?=$translate['book_parking_place'];?> | R1 parking</title>
 </head>
 <body>
+<div id="refresh" style="display: none;"><?=$refresh;?></div>
+
 <header><? include '../blocks/header.php'?></header>
-<div id="costParking" style="display: none;"><?=$_POST['bill'];?></div>
-	<form action="finish.php" method="post">
-	<div class="container">
+
+<div id="costParking" style="display: none;"><?=$order['bill'];?></div>
+	<form action="" method="post">
+	<div class="container cont_step3">
 		<div class="traveler_data step3">
 			<div class="input_label"><?=$translate['traveler_data'];?></div>
 			<div class="note"><?=$translate['this_info_will_help_us'];?></div>
@@ -140,17 +151,22 @@ $result2->execute();
 			<div class="car_row">
 				<div class="input_row"> 
 					<div class="input_label_step3"><?=$translate['cars'];?></div>
-					<input type="number" min="0" max="8" name="cars" id="carsForm" onchange="carsInputs()">
+					<select name="cars" id="carsForm" onchange="carsInputs()">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+					</select>
 				</div>
 				<div class="input_row"> 
 					<input type="hidden" name="registration" id="registrationForm">
 					<div class="input_label_step3"><?=$translate['registration'];?></div>
 					<input class="step3_reg reg" type="text" onchange="registrationsCollect()">
 				</div>
-			</div>
-			<div class="input_row"> 
-				<div class="input_label_step3"><?=$translate['return_from'];?></div>
-				<input type="text" name="back_from" id="backFromForm">
 			</div>
 			<div class="input_row"> 
 				<div class="input_label_step3"><?=$translate['comments'];?></div>
@@ -160,33 +176,30 @@ $result2->execute();
 
 		<div class="right_col">
 			<div class="block_step3">
-				<div class="input_label"><?=$translate['additional_services'];?></div>
 				<div class="input_row row">
 					<input type="checkbox" name="keys" id="keysForm" onchange="addToBill()">
-					<div class="input_label_step3" onclick="keyChecked()"><?=$translate['key_storage'];?></div>
+					<div class="input_label_step3 key_storage" onclick="keyChecked()"><?=$translate['key_storage'];?></div>
 				<span class="cost_keys">+ <span id="costKeys"><?=$moderator['cost_key'];?></span> zł</span>
 				</div>
 			</div>
 
 			<div class="block_step3 payment">
-				<div class="input_label"><?=$translate['payment'];?></div>
-				<div class="input_label_step3"><?=$translate['total_payment'];?></div>
-				<div id="bill_row"><span id="costAll"><?=$_POST['bill'];?></span> zł</div>
-				<input type="hidden" name="bill" id="bill" value="0">
-
-				<div class="input_row">
-					<input type="radio" name="payment" value="cash" id="cashPaymentForm" required> <div class=""><?=$translate['cash'];?></div>
+				<div class="block_step3_payment">
+					<div class="payment_left">
+						<div class="input_label"><?=$translate['payment'];?></div>
+						<div id="bill_row"><span id="costAll"><?=$order['bill'];?></span> zł</div>
+					</div>
+					<div class="payment_right">
+						<div class="input_row">
+							<input type="radio" name="payment" value="cash" id="cashPaymentForm" required> <div class="payment_label"><?=$translate['cash'];?></div>
+						</div>
+						<div class="input_row">
+							<input type="radio" name="payment" value="online" id="onlinePaymentForm" title="Ta metoda płatności będzie dostępna wkrótce" disabled><div title="Ta metoda płatności będzie dostępna wkrótce" class="payment_label"><?=$translate['online'];?></div>
+						</div>
+					</div>
 				</div>
-				<div class="input_row">
-					<input type="radio" name="payment" value="online" id="onlinePaymentForm"><div class=""><?=$translate['online'];?></div>
-				</div>
-			</div>
-		</div>
-	</div>
-		<div class="container column">
-			
 				<div class="input_row row center">
-					<input type="checkbox" name="vat" id="vatForm" onchange="vatFunction()"><div onclick="vatChecked()" class="input_label"><?=$translate['i_want_to_receive_vat'];?></div>
+					<input type="checkbox" name="vat" id="vatForm" onchange="vatFunction()"><div onclick="vatChecked()" class="input_label input_label_vat"><?=$translate['i_want_to_receive_vat'];?></div>
 				</div>
 				<div id="vat" class="container invisible">
 					<div class="left">
@@ -215,26 +228,31 @@ $result2->execute();
 
 					</div>
 				</div>
-
-				<div class="input_row row">
+			</div>
+		</div>
+	</div>
+		<div class="container column">
+				<div class="input_row row checkbox_row">
 					<input id="rulesForm" type="checkbox" required>
 					<div class="input_label_step3" onclick="rulesChecked()"><?=$translate['i_have_read_and_accept'];?> <?=$translate['parking_rules'];?>, <?=$translate['booking_rules'];?>*</div>
 				</div>
 				<hr>
-				<div class="input_row row">
+				<div class="input_row row checkbox_row">
 					<input id="freeHelp" type="checkbox" name="free_help">
 					<div class="input_label_step3 note" onclick="freeHelpChecked()"><?=$translate['i_want_free_assistance'];?></div>
 				</div>
-				<div class="input_row row">
+				<div class="input_row row checkbox_row">
 					<input id="subscribeForm" type="checkbox" name="subscribe">
 					<div class="input_label_step3 note" onclick="sbscrbChecked()"><?=$translate['commercial_information'];?></div>
 				</div>
-				<div class="note">
+				<div class="note checkbox_row">
 					<?=$translate['agree'];?>
 				</div>
-		<input type="submit" class="book_btn" value="<?=$translate['book'];?>">
+		<input type="submit" name="book" class="book_btn" value="<?=$translate['book'];?>">
 		</div>
 	</form>
+	
+<? include '../blocks/footer.php'?>
 <script src="../js/booking.js"></script>
 </body>
 </html>
