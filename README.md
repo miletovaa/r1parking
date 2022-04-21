@@ -16,7 +16,7 @@ It provides *service of long-term parking* for the duration of your trip or for 
 
 The project includes *two parts*: **parking site for clients** and **Admin Panel** for parking employees. Learn more about them below!
 
-> [Here is the link to the parking site!](http://sredarazrabotki.space/)
+> [Here is the link to the parking site!](http://sredarazrabotki.space/PL/R1.php)
 
 # 1. Clients part
 🚗 The main purpose of this part is to provide client an ability to book parking place ***as quickly and simply*** as possible.
@@ -29,20 +29,45 @@ The project includes *two parts*: **parking site for clients** and **Admin Panel
 
 ![Second booking step](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_01-26-07.jpg)
 
+🚗 If it's your first reservation, you will get an SMS to verify your phone number.
+
+![SMS](https://github.com/miletovaa/r1parking/blob/main/readme_img/sms.jpg)
+
 🚗 Next page allows client to fill *some optional details* about reservation, additional services and payment method. Here client also can request *a VAT invoice* that will be *generated and sent to the email automatically.*
 
 ![Third booking step](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_01-26-26.jpg)
 
-🚗 The last step of booking is confirmation. Client needs to click the link sent to the provided mail/phone number.
+🚗 **That's it!** A few minutes and client has booked parking place at R1.
 
-**That's it!** A few minutes and client has booked parking place at R1.
+![Finish](https://github.com/miletovaa/r1parking/blob/main/readme_img/finish.jpg)
 
+🚗 If you entered your e-mail, you will get a letter with verification link. After verification of e-mail, your just generated reservation file (and VAT invoice) will be sent to it immediately.
+
+![Reservation file](https://github.com/miletovaa/r1parking/blob/main/readme_img/reservation.jpg)
+
+![VAT](https://github.com/miletovaa/r1parking/blob/main/readme_img/vat.jpg)
+
+Further registered clients have an ability to log in using input field in header. It makes creation of future reservations faster and simplier.
+
+![Header](https://github.com/miletovaa/r1parking/blob/main/readme_img/header.jpg)
+
+Code checks if registered client uses the same device as earlier and automatically enters known information. In case that client uses a new device, code sends SMS-code to verify client and protect user's data.
+
+## Other pages
+Client's part also includes *Contacts* and *Price* pages.
+
+![Contacts page](https://github.com/miletovaa/r1parking/blob/main/readme_img/contacts.jpg)
 ##  Translation module
 
 🚗 Client's part is available ***in 3 languages*** (English, Polish and Russian). All site text data stored in the  Database (in each available languages) and can be ***changed easily anytime***.
 
 # 2. Admin Panel
 🚗 This part of project makes ***work of parking faster and simplier***.
+
+## Notification system
+🚗 Every time system gets new order, admin gets Telegram notification about it immediately.
+![Unconfirmed order](https://github.com/miletovaa/r1parking/blob/main/readme_img/tg1.jpg)
+![Confirmed order](https://github.com/miletovaa/r1parking/blob/main/readme_img/tg2.jpg)
 
 ## Admins system
 🚗 Here are some *levels* that admin may have.
@@ -54,6 +79,19 @@ The project includes *two parts*: **parking site for clients** and **Admin Panel
 🚗 Everyday employees see ***a list of cars that should arrive or leave today*** and all  the necessary information: arrival or departure date and time, car registrations, car owners details, etc.
 
 ![Orders list](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_01-59-01.jpg)
+
+🚗 Admin can print automatically generated bill any time.
+
+![Bill](https://github.com/miletovaa/r1parking/blob/main/readme_img/rachunek.jpg)
+
+🚗 System also keeps track of overdue orders. If any car should have left parking for today but still on the parking, you see it like on the picture below:
+
+![Delayed orders](https://github.com/miletovaa/r1parking/blob/main/readme_img/debt.jpg)
+
+## Raports
+🚗 Any time admin can generate a raport about required orders with ability to print them quickly. (It can be a list of orders for one day or few selected days)
+
+![Raport](https://github.com/miletovaa/r1parking/blob/main/readme_img/raport.jpg)
 
 ## Edit settings page
 
