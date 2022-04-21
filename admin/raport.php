@@ -79,6 +79,16 @@ if (isset($_GET['date_from'])){
             right: 0;
             position: absolute;
         }
+        .order_row{
+            width: 100% !important;
+            font-size: 10px !important;
+        }
+        .order_col{
+            width: 14% !important;
+        }
+        .action{
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -126,7 +136,7 @@ if (isset($_GET['date_from'])){
 		<div class="order_row">
             <div class="order_col"><?=$order['order_id'];?></div>
             <div class="order_col"><?=$order[$admin_col];?></div>
-            <div class="order_col"><?=$order_status;?></div>
+            <div class="order_col action"><?=$order_status;?></div>
             <div class="order_col"><?=$order[$date_col];?></div>
             <div class="order_col">o <?=$order[$time_col];?></div>
             <div class="order_col"><?=$order['bill'];?> zł</div>

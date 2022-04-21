@@ -10,7 +10,7 @@
 ">USTAWIENIA</a>
 <? } ?>
 <span class="btn_link" onclick="newReservation()">NOWA REZERWACJA</span>
-<span class="btn_link" onclick="raport()">RAPORT</span>
-<div id="raportOptions" style="display: none;"><a href="https://<?=$_SERVER['HTTP_HOST'];?>/admin/raport.php?wczoraj"  target="_blank"class="rap">WCZORAJ</a><a href="https://<?=$_SERVER['HTTP_HOST'];?>/admin/raport.php?dzis" target="_blank" class="rap">DZIŚ</a><a href="https://<?=$_SERVER['HTTP_HOST'];?>/admin/raport.php?jutro" target="_blank" class="rap">JUTRO</a><a id="rap_wybierz" class="rap" onclick="wybierz()">WYBIERZ</a></div>
-<div id="wybierzDaty" style="display: none;"><input type="date" name="from" id="dateFrom"> - <input type="date" name="to" id="dateTo"><input class="btn_link" type="submit" value="OK" onclick="openWybierz()"></div>
+<span class="btn_link" onclick="document.getElementById('raportOptions').style = 'display: flex;'">RAPORT</span>
+<div id="raportOptions" style="display: none;"><a href="https://<?=$_SERVER['HTTP_HOST'];?>/admin/raport.php?wczoraj"  target="_blank"class="rap">WCZORAJ</a><a href="https://<?=$_SERVER['HTTP_HOST'];?>/admin/raport.php?dzis" target="_blank" class="rap">DZIŚ</a><a href="https://<?=$_SERVER['HTTP_HOST'];?>/admin/raport.php?jutro" target="_blank" class="rap">JUTRO</a><a id="rap_wybierz" class="rap" onclick="document.getElementById('wybierzDaty').style = 'display: flex;'">WYBIERZ</a></div>
+<div id="wybierzDaty" style="display: none;"><input type="date" name="from" id="dateFrom"> - <input type="date" name="to" id="dateTo"><input class="btn_link" type="submit" value="OK" onclick="window.open('raport.php?date_from='+document.getElementById('dateFrom').value+'&date_to='+document.getElementById('dateTo').value, '_blank');"></div>
 </div>
