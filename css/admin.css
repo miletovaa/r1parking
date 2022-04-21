@@ -21,12 +21,39 @@ body{
 .call{
     background: rgb(239, 239, 239);
     padding: 0px 15px;
+    display: flex;
+    flex-direction: column;
+}
+.name_client{
+    font-size: 18px;
+}
+.mail_client{
+    font-size: 10px;
+}
+.zadzwon{
+    font-size: 8px;
+    font-weight: bold;
 }
 .cost{
     display: flex;
 }
 .cost_col{
     width: 50%;
+}
+.btn_link{
+    background: rgb(173, 173, 173);
+    padding: 2px 12px;
+    margin: 0 12px 0 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn_link:hover{
+    background-color: #5675c9;
+    color: white;
+}
+.btn_link_active{
+    background-color: #5675c9;
+    color: white;
 }
 .container{
     margin: 0.5%;
@@ -36,7 +63,7 @@ body{
     border: solid 2.3px #DFE7FD;
 }
 .container.sett{
-    width: 53%;
+    width: 52%;
 }
 .container.block{
     width: 36%;
@@ -110,15 +137,77 @@ a{
     background-color: #DFE7FD;
     /* border: solid 2.3px #CDDAFD; */
 }
+.order_row.status5{
+    background-color: #ffd9d9;
+    /* border: solid 2.3px #CDDAFD; */
+}
+.order_row.status_new{
+    background-color: #dedede;
+    /* border: solid 2.3px #CDDAFD; */
+}
+.order_row.displaynone{
+    display: none;
+}
 .order_col{
     width: 16.6%;
+    font-size: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
-.order_col.payment, .order_row.head > .order_col{
+.order_col.id{
+    width: 80px;
+}
+.order_row.head > .order_col{
     flex-direction: row;
+}
+.order_col.payment{
+    flex-direction: column;
+}
+.order_col.id.btns{
+    justify-content: space-evenly;
+}
+.new_btn{
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 11px;
+    cursor: pointer;
+}
+.new_btn:hover{
+    background-color: #e7e7e7;
+}
+.new_btn.dodaj{
+    color: #5d9c50;
+}
+.new_btn.anuluj{
+    color: #ff9393;
+}
+.new_pass{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
+.new_date_time{
+    border: none;
+    width: 100%;
+    margin: 1px 0;
+}
+.input_new{
+    width: 90%;
+    margin: 1px 0;
+}
+button.rej{
+    border: none;
+    cursor: pointer;
+}
+button.rej:hover{
+    background-color: #e7e7e7;
+}
+.input_new_pass{
+    width: 30px;
+    margin: 1px 0;
 }
 .settings{
     display: flex;
@@ -141,16 +230,20 @@ a{
     font-size: 20px;
     width: 60px;
 }
+.sett_row input[type=time] {
+    font-size: 14px;
+    width: 75px;
+}
 .btn_container{
     display: flex;
 }
 #admins_container{
-    display: flex;
+    /* display: flex; */
 }
 .admin_block{
     display: flex;
-    width: 200px;
-    height: 250px;
+    /* width: 200px; */
+    height: auto;
     padding: 20px 15px;
     background: #DFE7FD;
     border-radius: 10px;
@@ -162,8 +255,15 @@ a{
 .admin_block.new{
     background: #D0E8C8;
 }
+.admin_info{
+    display: flex;
+    align-items: center;
+}
 .admin_row{
     margin: 3px 0;
+}
+.admin_row, .personal_link, .admin_btns{
+    width: 25%;
 }
 .admin_name{
     font-size: 22px;
@@ -211,4 +311,125 @@ a{
     width: 90%;
     background: rgb(238, 238, 238);
     border-radius: 7px;
+}
+
+/* ADMIN PAGE ------------ */
+.adminpage_container{
+    max-width: 1024px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+}
+#timetable{
+    width: 100%;
+    display: flex;
+}
+.week_day{
+    width: 12.5%;
+}
+.hour{
+    margin: 0 2px;
+}
+#raportOptions{
+    background-color: #5675c9;;
+    width: 300px;
+    border-radius: 5px;
+    padding: 2px 15px;
+    display: flex;
+    margin: 0 12px 0 0;
+    justify-content: space-between;
+}
+.rap{
+    cursor: pointer;
+}
+.rap:hover{
+    color: white;
+}
+
+@media (max-width: 1024px) {
+    .order_col{
+        font-size: 10px;
+    }
+    .btn_link {
+        font-size: 14px;
+    }
+    #raportOptions{
+        font-size: 14px;
+        position: fixed;
+        right: 0px;
+        margin: 27px 94px;
+        display: flex;
+    }
+    .container.sett {
+        width: 49%;
+    }
+}
+@media (max-width: 767px) {
+    .buttons{
+        flex-wrap: wrap;
+        margin: 10px 0;
+    }
+    #raportOptions{
+        display: flex;
+        position: relative;
+        margin: 0;
+        font-size: 12px;
+    }
+    .btn_link {
+        font-size: 12px;
+        margin: 0px 12px 4px 0px;
+    }
+    .order_row{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .order_row.head{
+        display: none;
+    }
+    .order_col,.order_col.id {
+        font-size: 16px;
+        width: 33%;
+        margin: 10px 0;
+    }
+    .container.sett,.container.block {
+        width: 100%;
+    }
+    .delete_admin, .add_admin, .sett_btn {
+        margin: 3px auto;
+        font-size: 20px;
+    }
+}
+@media (max-width: 480px) {
+    .order_col, .order_col.id {
+        font-size: 16px;
+        width: 100%;
+        margin: 2px 0;
+    }
+    h1{
+        font-size: 25px;
+    }
+    .new_date_time, .input_new {
+        width: 90%;
+        margin: 3px 0;
+        font-size: 18px;
+    }
+    .new_btn{
+        font-size: 16px;
+    }
+    .order_col.id.btns {
+        justify-content: space-evenly;
+        flex-direction: row;
+    }
+    .admin_title {
+        font-size: 22px;
+    }
+    .blocks{
+        font-size: 12px;
+    }
+    .container{
+        padding: 10px;
+    }
+    .sett_row {
+        margin: 10px 0;
+    }
 }

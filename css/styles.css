@@ -6,9 +6,26 @@ body{
     margin: 0;
     font-family: 'Open Sans';
     color: #2e2e2e;
+    min-height: 100%;
 }
 a{
     text-decoration: none;
+}
+iframe{
+    width: 400px;
+    height: 400px;
+}
+#cross{
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    cursor: pointer;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 /* общие настройки --------- */
 .empty{
@@ -47,7 +64,7 @@ a{
     background-color: #ececec;
 }
 .info_link, .info_link a{
-    color: #B4B4B4;
+    color: #8a8989;
     text-decoration: none;
     padding: 1px 0;
     transition: .1s;
@@ -73,10 +90,36 @@ a{
 .container.header, .container.header_info{
     justify-content: space-between;
 }
+#header_input{
+    font-size: 14px;
+    width: 200px;
+    border-radius: 5px 0 0 5px;
+}
 #header_links{
     display: flex;
     margin: auto 0;
     align-items: center;
+}
+.loginbtn{
+    margin: 0 5px 0 0;
+    background: #cdcdcd;
+    border: none;
+    border-radius: 0 5px 5px 0;
+}
+.login_tel{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border: 2px solid #B4B4B4;
+    color: #b4b4b4;
+    padding: 2px 10px;
+    border-radius: 5px;
+}
+.login_tel a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .link{
     margin: 0 15px;
@@ -84,8 +127,7 @@ a{
 .link a{
     /* font-weight: bold; */
     color: #2e2e2e;
-    font-size: 18px;
-    transition: .1s;
+    font-size: 16px;    transition: .1s;
     text-transform: uppercase;
 }
 .link:hover, .link a:hover{
@@ -179,6 +221,7 @@ a{
 }
 .text3{
     font-size: 20px;
+    margin: 0 10px;
 }
 .text4{
     margin: 50px auto;
@@ -191,13 +234,22 @@ a{
     height: 85vh;
     align-items: center;
 }
+.container.dates > form{
+    display: flex;
+}
 .block_on_photo_dates{
-    width: 770px;
+    width: 98%;
+    height: max-content;
+    margin: 50px 1%;
     background-color: white;
     position: relative;
     border-radius: 15px;
     padding: 20px 60px 45px;
     text-align: center;
+}
+.block_on_photo_dates.index2{
+    height: 200px;
+    justify-content: center;
 }
 .date_time{
     display: flex;
@@ -210,6 +262,11 @@ a{
     color: #fe4d61;
     text-transform: uppercase;
     font-weight: bold;
+}
+.input_label.date_form{
+    margin: 5px;
+    display: flex;
+    align-items: center;
 }
 #dateEnterForm, #dateExitForm, #timeEnterForm, #timeExitForm{
     font-family: 'Open Sans';
@@ -225,16 +282,31 @@ a{
     border: 1px solid #B4B4B4;
     transition: .2s;
 }
+#timeEnterForm.bright_time, #timeExitForm.bright_time{
+    color: #fe4d61;
+    font-weight: bold;
+}
 .dates_title1{
     font-size: 24px;
     font-weight: bold;
     margin: 10px;
 }
+.dates_title1.index2 {
+    font-size: 28px;
+    color: #fe5265;
+}
 .dates_title{
     font-size: 20px;
     margin: 10px;
 }
-.btn_days{
+.cost_index2{
+    margin: 30px 0 0;
+    font-size: 24px;
+}
+.index2_bill{
+    /* font-size: ; */
+}
+.btn_days,.finish_btn{
     background-color: #fe4d61;
     color: white;
     border-radius: 10px;
@@ -244,9 +316,18 @@ a{
     cursor: pointer;
     transition: .1s;
 }
-.btn_days:hover{
+.btn_days{
+    margin: 0 0 0 10px;
+}
+.btn_days:hover,.finish_btn:hover{
     background: #ca3446;
     transition: .1s;
+}
+.finish_btn.disabled{
+    background-color: #aaaaaa;
+    font-size: 10px;
+    cursor: default;
+    text-align: center;
 }
 hr{
     border-top: 0;
@@ -259,9 +340,10 @@ hr{
 }
 .step2_title1{
     margin: 15px 0 3px;
-    font-size: 18px;
+    font-size: 22px;
     font-style: italic;
     color: gray;
+    text-align: center;
 }
 .step2_title2{
     margin: 0 0 50px 0;
@@ -278,13 +360,13 @@ hr{
     color: white;
     padding: 20px 10px;
     border-radius: 15px;
-    width: 330px;
+    width: 360px;
     height: min-content;
     margin: 0 0 0 auto;
 }
 .date_time_block_step2{
     justify-content: space-between;
-    margin: 2px 12px;
+    margin: 2px 10px;
     width: 50%;
 }
 .arrival, .departure{
@@ -294,10 +376,18 @@ hr{
 .input_label.white{
     color: white;
 }
-#dateEnterForm.date_step2, #dateExitForm.date_step2, #timeEnterForm.date_step2, #timeExitForm.date_step2{
+#dateEnterForm, #dateExitForm, #timeEnterForm, #timeExitForm {
     margin: 0;
     padding: 4px 10px;
-    font-size: 18px;
+    font-size: 16px;
+    width: 140px;
+    background: white;
+}
+#timeEnterForm, #timeExitForm {
+    margin: 0;
+    padding: 4px 10px;
+    font-size: 16px;
+    width: 110px;
 }
 .step2_titles{
     color: #fe4d61;
@@ -328,14 +418,30 @@ input[type=text], input[type=number],input[type=tel], input[type=email]{
     outline: #50BFFE solid 2px;
     border: none;
 }
+.message_form >input{
+    width: 90%;
+    margin: 4px 0;
+    font-size: 18px;
+}
+.input_label_step2{
+    align-items: center;
+    display: flex;
+}
+.input_row.input_row_step2{
+    display: flex;
+    justify-content: space-between;
+}
+.input_row.input_row_step2 > input{
+    width: 345px;
+}
 .traveler_data, .cost{
     border-radius: 15px;
     border: 1px solid #B4B4B4;
     padding: 20px;
 }
 .cost{
-    width: 310px;
-margin: 15px 0;
+    width: 338px;
+    margin: 15px 0;
 }
 .bill{
     display: flex;
@@ -360,6 +466,10 @@ margin: 15px 0;
     background: #fff;
     transition: .2s;
 }
+.cont_continue_btn{
+    width: 100%;
+    display: flex;
+}
 
 /* step3 ----------------------- */
 .input_row input[type=number]{
@@ -368,8 +478,15 @@ margin: 15px 0;
 .input_label_step3.person {
     font-size: 16px;
 }
-.persons, .car_row{
+.car_row{
     display: flex;
+}
+#carsForm{
+    font-size: 22px;
+    padding: 10px;
+    width: 87px;
+    border: 1px solid #B4B4B4;
+    border-radius: 5px;
 }
 .persons > .input_row, .car_row > .input_row{
     margin: 12px 10px 12px 0;
@@ -379,7 +496,8 @@ margin: 15px 0;
 }
 .input_row textarea{
     width: 588px;
-    resize: none;
+    height: 25px;
+    /* resize: none; */
     border: 1px solid #B4B4B4;
 }
 .input_row textarea:hover{
@@ -413,6 +531,9 @@ margin: 15px 0;
     width: auto;
     margin: 0 10px 0 0;
 }
+#vat{
+    flex-direction: column;
+}
 .input_row.row{
     display: flex;
 }
@@ -420,8 +541,14 @@ margin: 15px 0;
     margin: 5px 0 5px auto;
     font-size: 17px;
 }
-.payment > .input_row{
+.block_step3_payment {
     display: flex;
+}
+.payment_right > .input_row{
+    display: flex;
+}
+.payment_left{
+    width: 50%;
 }
 .invisible{
     display: none;
@@ -432,14 +559,64 @@ margin: 15px 0;
 .input_label_step3.vat{
     font-size: 16px;
 }
-.left,.right{
-    width: 50%;
-}
 input.vat_inp{
-    width: 400px;
+    width: 93%;
 }
 .step3_reg{
     margin: 0 0 5px 0;
+}
+#tel_confirm_container, #mail_container, #message_container{
+    position: fixed;
+    top: 0;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    background: #00000080;
+}
+#tel_confirm, #mail_confirm, #message{
+    top: 45%;
+    position: absolute;
+    left: 30%;
+    background: white;
+    padding: 25px;
+    width: 30%;
+    border-radius: 15px;
+}
+#message {
+    top: 30%;
+}
+.message_btn{
+    width: 100%;
+    display: flex;
+    margin: 10px 0 0 0;
+}
+.message_btn > input{
+    margin: 0 auto;
+    background: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 10px;
+}
+#tel_confirm_inner{
+    /* width: 40%; */
+}
+#userCode{
+    font-size: 16px;
+    border: 1px solid #B4B4B4;
+    border-radius: 5px;
+    padding: 5px;
+}
+#code_row{
+    display: flex;
+    margin: 20px 0;
+}
+#sendUserCode{
+    border: none;
+    border-radius: 7px;
+    padding: 2px 15px;
+    margin: 0 0 0 12px;
+    cursor: pointer;
 }
 
 /* finish ------------------- */
@@ -449,4 +626,679 @@ input.vat_inp{
     width: 100%;
     font-size: 36px;
     margin: 50px 0;
+}
+.finish_btns_container{
+    width: 600px;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 15px 0;
+}
+
+/* *Cennik --------------------------- */
+h1.cennik{
+    text-align: center;
+}
+.container_cennik{
+    max-width: 600px;
+    margin: 0 auto;
+}
+.cennik_line{
+    display: flex;
+    justify-content: space-between;
+}
+/* * Contacts ------------------------- */
+.contacts{
+    width: 30%;
+}
+.form_contacts{
+    width: 70%;
+}
+.form_contacts > input, .form_contacts > textarea{
+    width: 80%;
+    font-size: 18px;
+    padding: 4px 10px;
+    margin: 5px 0;
+}
+
+/* * Client -------------------------- */
+.client_container{
+    margin: 15px;
+    padding: 20px;
+    border: 1px solid #d6d6d6;
+    border-radius: 15px;
+    width: 100%;
+}
+.client_bookings_title{
+    font-weight: bold;
+    margin: 15px 0 10px;
+    color: #fe5265;
+}
+.witam{
+    font-weight: bold;
+    color: #fe5265;
+    font-size: 20px;
+    margin: 0 0 10px 0;
+}
+.zmien{
+    font-size: 12px;
+    color: gray;
+    font-style: italic;
+    text-decoration: underline;
+}
+.order_tel > a{
+    color: gray;
+}
+
+/** footer ----------------------- */
+footer{
+    width: 100%;
+    background: #ececec;
+    margin: 20px 0 0 0;
+}
+.footer_inside{
+    color: #8a8989;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+    margin: 16px 0;
+}
+.developer_message, .message_btn > input{
+    font-size: 12px;
+    background: #8a8989;
+    padding: 1px 10px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .1s;
+}
+.developer_message:hover, .message_btn > input:hover {
+    background: #6e6e6e;
+    color: silver;
+    transition: .1s;
+}
+
+@media (max-width: 1024px) {
+    .container{
+        max-width: 768px;
+    }
+    .info_link a {
+        margin: 0 8px;
+    }
+    #langSelect{
+        margin: 0 10px 0 0px;
+    }
+    .login_tel{
+        margin: 0 10px 0 0;
+    }
+    #main_photo img{
+        top: 0;
+        width: auto;
+        height: 100%;
+    }
+    #header_img{
+        margin: 0 15px;
+    }
+    .dates > form{
+        width: 100%;
+    }
+    .block_on_photo_dates {
+        width: 98%;
+        margin: 50px 1%;
+        padding: 25px 0px 35px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #dateEnterForm, #dateExitForm, .input_label{
+        font-size: 12px;
+    }
+    .input_label{
+        margin: 5px;
+    }
+    .input_row.input_row_step2 > input {
+        width: 175px;
+    }
+    .step2_title1 {
+        margin: 15px 25px 3px;
+    }
+    .traveler_data, .cost{
+        padding: 15px;
+        margin: 10px;
+    }
+    .step2_titles {
+        font-size: 14px;
+    }
+    .input_label_step2, .input_label_step3 {
+        font-size: 14px;
+    }
+    input[type=text], input[type=number], input[type=tel], input[type=email] {
+        font-size: 14px;
+        padding: 8px;
+        width: 300px;
+    }
+    input.vat_inp {
+        width: 93%;
+    }
+    .message_form > input{
+        padding: 5px;
+        margin: 2px 0;
+        width: 90%;
+    }
+    .date_time_step2{
+        width: 350px;
+        margin: 10px;
+    }
+    #tel_confirm {
+        left: 22%;
+        width: 50%;
+    }
+    #dateEnterForm.date_step2, #dateExitForm.date_step2, #timeEnterForm.date_step2, #timeExitForm.date_step2 {
+        font-size: 12px;
+        margin: 6px 0;
+    }
+    #dateEnterForm.date_step2, #dateExitForm.date_step2{
+        width: 110px;
+    }
+    .note{
+        font-size: 12px;
+    }
+    .continue_btn, .book_btn {
+        margin: 15px auto;
+        font-size: 20px;
+        padding: 5px 20px;
+    }
+    .step3{
+        width: 415px;
+    }
+    .block_step3{
+        margin: 10px 0;
+        width: 250px;
+        padding: 10px 20px;
+    }
+    .car_row > .input_row > input[type=text] {
+        width: 300px;
+    }
+    .input_row textarea {
+        width: 410px;
+        height: 25px;
+    }
+    .input_label_step3,.input_label_step3.person {
+        font-size: 14px;
+    }
+    #costAll {
+        font-size: 26px;
+    }
+    .cost_keys {
+        margin: 0px 0 0px auto;
+    }
+    /* .input_label_vat{
+        margin: 0;
+    }
+    #vat{
+        width: 90%;
+    } */
+    .checkbox_row{
+        margin: 0 10px;
+    }
+    .finish{
+        font-size: 30px;
+        margin: 90px 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .container {
+        max-width: 480px;
+    }
+    .container.dates{
+        height: 100vh;
+    }
+    .info_link {
+        font-size: 14px;
+        margin: 0 12px;
+    }
+    #header_img {
+        width: 120px;
+        margin: 5px 5px 0 10px;
+    }
+    .loginbtn {
+        margin: 4px 5px 0 0;
+        font-size: 8px;
+        height: 21px;
+    }
+    .login_tel {
+        font-size: 10px;
+        margin: 0 10px;
+    }
+    .link {
+        margin: 0 4px;
+    }
+    .link > a {
+        font-size: 9px;
+    }
+    #header_input {
+        font-size: 8px;
+        width: 120px;
+        padding: 5px;
+    }
+    #langSelect {
+        margin: 0 5px 0 0;
+        font-size: 11px;
+        padding: 2px 0;
+    }
+    .loginbtn {
+        font-size: 8px;
+        height: 21px;
+        margin: 4px 4px 0 0;
+    }
+    .container.header{
+        padding: 0;
+    }
+    #main_photo{
+        top: 0;
+        height: 100%;
+    }
+    #main_photo img{
+        width: auto;
+        height: 100%;
+    }
+    .dates > form{
+        width: 100%;
+    }
+    .dates_title1{
+        margin: 20px;
+    }
+    .block_on_photo_dates {
+        width: 90%;
+        margin: 50px 5%;
+        padding: 16px 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .block_on_photo_dates.index2 {
+        height: 480px;
+    }
+    .date_time{
+        flex-direction: column;
+        align-items: center;
+        margin: 15px 0;
+        width: fit-content;
+    }
+    .date_time_block{
+        margin: 5px 0;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .dates_title{
+        font-size: 16px;
+        margin: 0;
+    }
+    #tel_confirm {
+        top: 36%;
+        left: 15%;
+        width: 60%;
+    }
+    .input_label{
+        font-size: 18px;
+    }
+    #dateEnterForm, #dateExitForm{
+        font-size: 14px;
+        width: 170px;
+        margin: 6px 0;
+    }
+    #timeEnterForm, #timeExitForm{
+        width: 94px;
+    }
+    .btn_days{
+        margin: 15px;
+        font-size: 20px;
+        font-weight: normal;
+    }
+    .airport {
+        flex-direction: column;
+    }
+    .text, .img{
+        width: 100%;
+        margin: 10px 0;
+    }
+    .container.rows{
+        flex-direction: column;
+    }
+    .step2_title1 {
+        margin: 15px 12px 3px;
+    }
+    .date_time_step2{
+        margin: 0 10px;
+        width: 256px;
+        padding: 10px;
+    }
+    .input_label_step2{
+        align-items: center;
+        display: flex;
+    }
+    .input_row.input_row_step2{
+        display: flex;
+        justify-content: space-between;
+    }
+    .input_row.input_row_step2 > input{
+        width: 280px;
+    }
+    .right_col{
+        order: -1;
+        width: 100%;
+        display: flex;
+        /* flex-direction: column; */
+    }
+    .input_label {
+        /* font-size: 12px; */
+        align-items: center;
+        display: flex;
+    }
+    .bill{
+        align-items: center;
+        display: flex;
+        margin: 0 10px;
+    }
+    .date_time_block_step2 {
+        margin: 2px;
+        width: fit-content;
+        display: block;
+    }
+    .date_time_block_step2.left {
+        width: 55%;
+    }
+    .date_time_block_step2.right {
+        width: 45%;
+    }
+    .advantage{
+        display: none;
+    }
+    .cost {
+        margin: 0;
+    }
+    .note {
+        font-size: 10px;
+    }
+    #billJS, #costAll {
+        font-size: 24px;
+    }
+    input[type=text], input[type=number], input[type=tel], input[type=email] {
+        width: 96%;
+    }
+    .continue_btn, .book_btn {
+        font-size: 18px;
+    }
+    .cont_continue_btn{
+        width: 100%;
+        display: flex;
+        position: sticky;
+        bottom: 0;
+        background: #ffffffa8;
+    }
+    .step3 {
+        width: 100%;
+    }
+    .input_label_step3, .input_label_step3.person {
+        font-size: 11px;
+        width: auto;
+    }
+    .input_row input[type=number] {
+        width: 40px;
+        font-size: 12px;
+    }
+    .block_step3 {
+        width: 50%;
+        margin: 10px;
+    }
+    .cost_keys {
+        font-size: 14px;
+    }
+    .input_label_vat{
+        font-size: 10px;
+    }
+    .traveler_data, .cost {
+        padding: 10px;
+    }
+    .step2_title1{
+        order: -2;
+    }
+    .continue_btn{
+        /* order: -1; */
+        /* margin: 5px auto; */
+    }
+    .cost{
+        width: auto;
+        margin: 0 12px 0 0;
+    }
+    .cont_step3{
+        flex-flow: wrap;
+    }
+    #inputChildren, #inputDisabled{
+        font-size: 10px;
+        padding: 3px;
+    }
+    .persons > .input_row, .car_row > .input_row {
+        margin: 10px 7px 0px 0;
+    }
+    .car_row > .input_row > input[type=text] {
+        width: 150px;
+    }
+    #carsForm {
+        font-size: 14px;
+        padding: 8px;
+    }
+    .input_row textarea {
+        /* width: 230px; */
+    }
+    .payment_label{
+        font-size: 12px;
+    }
+    .input_label_step3.key_storage{
+        width: min-content;
+    }
+    .input_label_step3.vat{
+        font-size: 12px;
+    }
+    input[type=text] {
+        width: 86%;
+    }
+    .checkbox_row > .input_label_step3{
+        width: auto;
+    }
+    .finish{
+        font-size: 30px;
+        margin: 90px 0;
+    }
+    .finish_btn{
+        font-size: 12px;
+    }
+    .finish_btns_container {
+        width: 460px;
+    }
+    iframe{
+        width: 96%;
+    }
+    #mail_confirm {
+        left: 20%;
+        width: 50%;
+    }
+}
+@media (max-width: 480px) {
+    .info_link{
+        font-size: 12px;
+        margin: 0 5px;
+    }
+    /* #header_links{
+        display: none;
+    } */
+    .link{
+        display: none;
+    }
+    #header_img{
+        width: 110px;
+        margin: 5px 5px 0 5px;
+    }
+    .dates{
+        height: auto;
+        align-items: unset;
+    }
+    .dates > form{
+        width: 100%;
+    }
+    .dates_title1.index2 {
+        margin: 0;
+    }
+    .block_on_photo_dates {
+        width: 90%;
+        margin: 40px 5% 0;
+        padding: 16px 0px;
+    }
+    .block_on_photo_dates.index2 {
+        padding: 28px 0;
+        height: min-content;
+        margin: 30% auto;
+    }
+    .date_time_block{
+        flex-direction: column;
+        align-items: center;
+        margin: 15px 0;
+    }
+    .date_time_step2 {
+        margin: 10px;
+        width: auto;
+    }
+    .dates_title{
+        margin: 10px;
+    }
+    .input_label{
+        font-size: 20px;
+    }
+    .input_label.white {
+        display: flex;
+        align-items: center;
+    }
+    #dateEnterForm, #dateExitForm{
+        margin: 6px 20px;
+        font-size: 18px;
+        /* width: ; */
+    }
+    .date_time{
+        margin: 0;
+    }
+    #timeEnterForm, #timeExitForm{
+        margin: 6px 0px;
+        width: 60px;
+    }
+    .input_label_step3.key_storage{
+        width: auto;
+    }
+    .btn_days{
+        margin: 15px;
+        font-size: 20px;
+        font-weight: normal;
+    }
+    .right_col{
+        display: flex;
+        flex-direction: column;
+        /* padding: 0 10px; */
+    }
+    .advantage{
+        display: block;
+    }
+    .cost {
+        margin: 10px;
+        width: auto;
+        display: flex;
+        order: -1;
+    }
+    .input_label {
+        text-align: center;
+        font-size: 12px;
+    }
+    .bill{
+        justify-content: center;
+    }
+    .arrival, .departure {
+        justify-content: center;
+    }
+    .cont_step3{
+        flex-direction: column;
+    }
+    .block_step3.payment {
+        order: -1;
+    }
+    .traveler_data{
+        width: auto;
+        margin: 10px 10px 0;
+    }
+    .block_step3 {
+        width: auto;
+    }
+    .input_label_step3 {
+        width: auto;
+    }
+    .input_row.input_row_step2 {
+        flex-direction: column;
+    }
+    .input_row.input_row_step2 > input {
+        width: auto;
+    }
+    .car_row > .input_row > input[type=text] {
+        width: 190px;
+    }
+    .input_row textarea {
+        width: 96%;
+    }
+    .finish{
+        font-size: 24px;
+        margin: 105px 0;
+    }
+    /* #dateEnterForm.date_step2, #dateExitForm.date_step2, #timeEnterForm.date_step2, #timeExitForm.date_step2 {
+        width: 115px;
+    } */
+    .cost {
+        margin: 10px 10px 0;
+        width: auto;
+    }
+    #code_row {
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+    }
+    #tel_confirm {
+        top: 25%;
+        left: 7%;
+        width: 70%;
+    }
+    #sendUserCode {
+        margin: 10px 0;
+    }
+    .finish_btn{
+        font-size: 11px;
+        text-align: center;
+        margin: 6px;
+    }
+    .finish_btns_container {
+        flex-direction: column;
+        width: 60%;
+    }
+    .date_time_block_step2 {
+        display: flex;
+        flex-direction: column;
+    }
+    #dateEnterForm.date_step2, #dateExitForm.date_step2, #timeEnterForm.date_step2, #timeExitForm.date_step2 {
+        margin: 0;
+    }
+    #mail_confirm {
+        left: 9%;
+        width: 70%;
+    }
+    #header_input {
+        font-size: 7px;
+        width: 100px;
+    }
+    .loginbtn {
+        margin: 4px 2px 0 0;
+    }
 }
