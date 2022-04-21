@@ -1,5 +1,8 @@
 <?
-session_start();
+include 'session.php';
+require '../db.php';
+require '../functions/moderator.php';
+
 /* 
 * Checking if admin logged in.
 * If NO, go to LOG IN page.
@@ -12,22 +15,7 @@ if ($_SESSION['admin'] != 'logged_in') header('Location: log_in.php');
 if ($_SESSION['admin_level'] != 1) header('Location: today.php');
 
 /* 
-* Connection with Database
-*/
-require '../db.php';
-$db = Database::getConnection();
-
-/*
-* This function fetches some settings from the Database
-* such as prices etc.
-* This settings can be edited by admins in Admin Panel anytime
-* and the changes will be on the site immediately
-*/
-$moderator = Database::moderatorSettings();
-
-
-/* 
-* Updating changed data in the Database.
+* Updating data in the Database.
 */
 if (isset($_POST['update'])){
 	$query = "UPDATE moderator SET
@@ -35,6 +23,15 @@ if (isset($_POST['update'])){
 	WHERE id = 1";
 	$result = $db->prepare($query);
 	$result->bindParam(":cost_key",$_POST['cost_key'], PDO::PARAM_STR);
+	$result->execute();
+	header("Refresh: 0; url=edit_mod_sett.php");
+}
+if (isset($_POST['zmiana'])){
+	$query = "UPDATE moderator SET
+	zmiana_start = :zmiana_start
+	WHERE id = 1";
+	$result = $db->prepare($query);
+	$result->bindParam(":zmiana_start",$_POST['zmiana_start'], PDO::PARAM_STR);
 	$result->execute();
 	header("Refresh: 0; url=edit_mod_sett.php");
 }
@@ -112,7 +109,7 @@ $admins = $result->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <div id="wrapper">
 	<h1>ZMIEŃ USTAWIENIA</h1>
-	<a href="orders_panel.php">Do wszystkich ◀</a>
+<? include 'buttons.php';?>
 	<hr>
 	<div class="blocks">
 	<div class="container sett">
@@ -140,18 +137,25 @@ $admins = $result->fetchAll(PDO::FETCH_ASSOC);
 		</div>
 				<div class="sett_row">Każdy następny dzień <input type="number" name="cost_parking_day_after14" id="" value="<?=$moderator['cost_parking_day_after14'];?>"></div>
 		<div class="btn_container">
-			<input class="sett_btn" type="submit" name="cennik" value="UPDATE">
+			<input class="sett_btn" type="submit" name="cennik" value="ZMIEŃ">
 		</div>
 		</form>
 	</div>
 	<div class="container block">
-	<form action="" method="post">
 		<div class="admin_title">Ustawienia</div>
-		<div class="sett_row">Przechowanie kluczy <input type="number" name="cost_key" id="" value="<?=$moderator['cost_key'];?>"></div>
-		<div class="btn_container">
-			<input class="sett_btn" type="submit" name="update" value="UPDATE">
-		</div>
-	</form>
+		<form action="" method="post">
+			<div class="sett_row">Przechowanie kluczy <input type="number" name="cost_key" id="" value="<?=$moderator['cost_key'];?>"></div>
+			<div class="btn_container">
+				<input class="sett_btn" type="submit" name="update" value="ZMIEŃ">
+			</div>
+		</form>
+		<form action="" method="post">
+			<div class="sett_row">Początek pracy <div class=""><input type="time" name="zmiana_start" value="<?=$moderator['zmiana_start'];?>"></div></div>
+			<div class="btn_container">
+				<input class="sett_btn" type="submit" name="zmiana" value="ZMIEŃ">
+			</div>
+		</form>
+	</div>
 	</div>
 	
 	<div class="container admins">
@@ -173,9 +177,10 @@ $admins = $result->fetchAll(PDO::FETCH_ASSOC);
 					<div class="admin_row admin_name"><?=$admin['admin_name'];?></div>
 					<div class="admin_row admin_level"><?=$level;?></div>
 					<a class="personal_link" href="">Personal summary</a>
-				</div>
+				
 				<div class="admin_btns">
 					<input type="submit" class="delete_admin" id="a<?=$admin['id'];?>" value="DELETE">
+				</div>
 				</div>
 			</div>
 		<?}?>

@@ -1,6 +1,5 @@
 <?
 require '../db.php';
-$db = Database::getConnection();
 $id = $_POST['id'];
 
 $query = "DELETE from admins WHERE id = :admin_id";
