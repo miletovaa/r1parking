@@ -57,7 +57,7 @@
             <?=$translate['choose_the_best'];?>
         </div>
 
-        <iframe height="450" style="border:0; width: 100%;" loading="lazy" allowfullscreen  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD_YKgeutPWWFaJZ2c5EaSjLfY376i_J_0&q=R1+Parking+Okęcie">
+        <iframe height="450" style="border:0; width: 100%;" loading="lazy" allowfullscreen  src="https://www.google.com/maps/embed/v1/place">
 </iframe>
     </div>
 <? include '../blocks/footer.php'?>
