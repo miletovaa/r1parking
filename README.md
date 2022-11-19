@@ -1,6 +1,6 @@
-# 🅿️R1PARKING PROJECT🅿️
+# 🅿️PARKING PROJECT🅿️
 
-***Hello!*** Here you can learn everything about my **R1 Parking project.**
+***Hello!*** Here you can learn everything about my **Parking project.**
 
 > !!! The development of the project is in progress. Functional content will be supplemented in the future.
 
@@ -9,6 +9,8 @@
 
 🚗 R1 Parking located in *Warsaw, Poland*, not far from Warsaw Chopin Airport.
 It provides *service of long-term parking* for the duration of your trip or for your other purposes.
+The owner of the parking also has another parking. There is it's own page for this parking, as well.
+
 
 🚗 *The main aims of the project are:*
 1) making the parking more convenient with **the functionality of booking parking places by clients online**,
@@ -16,7 +18,9 @@ It provides *service of long-term parking* for the duration of your trip or for 
 
 The project includes *two parts*: **parking site for clients** and **Admin Panel** for parking employees. Learn more about them below!
 
-> [Here is the link to the parking site!](http://sredarazrabotki.space/PL/R1.php)
+> [Here is the link to the parking site!](http://parking.b00king.online/PL/R-1.php)
+
+> [And the second parking](http://parking.b00king.online/PL/instalatorow.php)
 
 # 1. Clients part
 🚗 The main purpose of this part is to provide client an ability to book parking place ***as quickly and simply*** as possible.
@@ -59,15 +63,15 @@ Client's part also includes *Contacts* and *Price* pages.
 ![Contacts page](https://github.com/miletovaa/r1parking/blob/main/readme_img/contacts.jpg)
 ##  Translation module
 
-🚗 Client's part is available ***in 3 languages*** (English, Polish and Russian). All site text data stored in the  Database (in each available languages) and can be ***changed easily anytime***.
+🚗 Client's part is available ***in 3 languages*** (English, Polish and Russian). The page automatically detects preferable language and sets it. Client can change language in the header. All site text data stored in the Database (in each available languages) and can be ***changed easily anytime*** by site administrator.
 
 # 2. Admin Panel
 🚗 This part of project makes ***work of parking faster and simplier***.
 
 ## Notification system
 🚗 Every time system gets new order, admin gets Telegram notification about it immediately.
-![Unconfirmed order](https://github.com/miletovaa/r1parking/blob/main/readme_img/tg1.jpg)
-![Confirmed order](https://github.com/miletovaa/r1parking/blob/main/readme_img/tg2.jpg)
+
+![Unconfirmed order](https://github.com/miletovaa/r1parking/blob/main/readme_img/bot.jpg)
 
 ## Admins system
 🚗 Here are some *levels* that admin may have.
@@ -75,10 +79,16 @@ Client's part also includes *Contacts* and *Price* pages.
 2) **2-level admin** can view the daily resume, the full list of reservations and update them.
 3) **3-level admin** can only view the daily resume, the full list of reservations.
 
-## Daily resume for employees
-🚗 Everyday employees see ***a list of cars that should arrive or leave today*** and all  the necessary information: arrival or departure date and time, car registrations, car owners details, etc.
+## Structure of Admin Panel:
+In the top of the site there is a bar. Here admin can choose one of the parkings (or all of them).
 
-![Orders list](https://github.com/miletovaa/r1parking/blob/main/readme_img/photo_2022-03-16_01-59-01.jpg)
+![](https://github.com/miletovaa/r1parking/blob/main/readme_img/header_admin.jpg)
+
+## ALL page
+
+Provides the list of all reservations for the whole time. Here you can find an exact reservation using search and sort reservations by some columns.
+
+![All page](https://github.com/miletovaa/r1parking/blob/main/readme_img/all.png)
 
 🚗 Admin can print automatically generated bill any time.
 
@@ -88,8 +98,34 @@ Client's part also includes *Contacts* and *Price* pages.
 
 ![Delayed orders](https://github.com/miletovaa/r1parking/blob/main/readme_img/debt.jpg)
 
+## Today page
+
+Shows  the list of today's arrivals and departures.
+
+![Orders list](https://github.com/miletovaa/r1parking/blob/main/readme_img/today.png)
+
+## New reservation
+
+Admins can create new reservations manually in case if anybody wants to reserve a parking place by phone call.
+
+![Orders list](https://github.com/miletovaa/r1parking/blob/main/readme_img/new_res.png)
+
+
+## Statistics page
+
+Provides information about number of reservations for the exact day or time interval. You can also compare the number of reservations from different parkings and the income from them for the selected time interval.
+
+![](https://github.com/miletovaa/r1parking/blob/main/readme_img/stat.png)
+
+
+![](https://github.com/miletovaa/r1parking/blob/main/readme_img/statistics.png)
+
+## Update the list of reservations button
+
+When admin clicks this button, server parses the mailbox with reservations from ***other servises*** and collect them all in one Datbase (all reservations made up on the clients side of the site collect in the Database automatically)
+
 ## Raports
-🚗 Any time admin can generate a raport about required orders with ability to print them quickly. (It can be a list of orders for one day or few selected days)
+🚗 Any time admin can generate a raport about required orders with ability to print them quickly. (It can be a list of orders for one day or time interval)
 
 ![Raport](https://github.com/miletovaa/r1parking/blob/main/readme_img/raport.jpg)
 
